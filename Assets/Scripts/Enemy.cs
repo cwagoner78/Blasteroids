@@ -15,7 +15,7 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         transform.Translate(Vector3.forward * _speed * Time.deltaTime) ;
-        if (transform.position.y < -_yPosBound + 10f) Destroy(gameObject); //transform.position = new Vector3(Random.Range(-_xPosBound, _xPosBound), _yPosBound, 0);
+        if (transform.position.y < -_yPosBound + 10f) Destroy(gameObject); 
 
     }
 
