@@ -25,7 +25,7 @@ public class SpawnManager : MonoBehaviour
         {
             int spawnIndex = Random.Range(0, _spawnPrefabs.Length);
             _spawnPos = new Vector3(Random.Range(-15, 15), 30, 0);
-            GameObject newSpawn = Instantiate(_spawnPrefabs[spawnIndex], _spawnPos, Quaternion.identity);
+            GameObject newSpawn = Instantiate(_spawnPrefabs[spawnIndex], _spawnPos, _spawnPrefabs[spawnIndex].transform.rotation);
             newSpawn.transform.parent = _spawnContainer.transform;
             Debug.Log("Spawned Prefab number " + spawnIndex);
             yield return new WaitForSeconds(Random.Range(_fastest, _longest));
