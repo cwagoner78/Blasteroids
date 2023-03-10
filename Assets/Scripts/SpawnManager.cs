@@ -11,11 +11,8 @@ public class SpawnManager : MonoBehaviour
     private Vector3 _spawnPos;
     private bool _stopSpawning;
 
-    private Player _player;
-
     void Start()
     {
-        _player = GameObject.Find("Player").GetComponent<Player>();
         StartCoroutine(SpawnRoutine());
     }
 
@@ -30,7 +27,6 @@ public class SpawnManager : MonoBehaviour
             Debug.Log("Spawned Prefab number " + spawnIndex);
             yield return new WaitForSeconds(Random.Range(_fastest, _longest));
         }
-
     }
 
     public void OnGameOver()
