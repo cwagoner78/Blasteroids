@@ -10,9 +10,10 @@ public class Player : MonoBehaviour
     [SerializeField] private float _xBounds = 12f;
     [SerializeField] private float _yBounds = 5;
 
-    [Header("Player Lives")]
+    [Header("Player Health")]
     [SerializeField] private int _startingHealth = 1;
     [SerializeField] private int _lives = 3;
+
     private int _health = 1;
     private Rigidbody _rigidbody;
     private Animator _anim;
@@ -30,7 +31,6 @@ public class Player : MonoBehaviour
         _spawnManagerAsteroid = GameObject.Find("AsteroidSpawner").GetComponent<SpawnManager>();
         _spawnManagerEnemy = GameObject.Find("EnemySpawner").GetComponent<SpawnManager>();
         if (_spawnManagerAsteroid == null || _spawnManagerEnemy == null) Debug.LogError("Spawner equals NULL");
-
     }
 
     void FixedUpdate()
@@ -53,29 +53,31 @@ public class Player : MonoBehaviour
         if (position.y <= -_yBounds * 1.5f) _rigidbody.AddForce(movement.x, movement.y + _yBounds * (_moveForce / 4), movement.z);
         if (position.x >= _xBounds * 1.5f) _rigidbody.AddForce(movement.x - _xBounds * (_moveForce / 4), movement.y, movement.z);
         if (position.x <= -_xBounds * 1.5f) _rigidbody.AddForce(movement.x + _xBounds * (_moveForce / 4), movement.y, movement.z);
+
     }
 
     void HandleAnimation()
     {
-
-        Debug.Log(_inputX);
         if (_inputX < -0.2f)
         {
             _anim.SetBool("MovingLeft", true);
             _anim.SetBool("MovingRight", false);
             _anim.SetBool("Idle", false);
+
         }
         else if (_inputX > 0.2f)
         {
             _anim.SetBool("MovingLeft", false);
             _anim.SetBool("MovingRight", true);
             _anim.SetBool("Idle", false);
+
         }
         else if (_inputX > -0.2f && _inputX < 0.2f)
         {
             _anim.SetBool("MovingLeft", false);
             _anim.SetBool("MovingRight", false);
             _anim.SetBool("Idle", true);
+
         }
     }
 
@@ -87,6 +89,7 @@ public class Player : MonoBehaviour
             _lives--;
             transform.position = new Vector3(0, 0, 0);
             _health = _startingHealth;
+
         }
 
         if (_lives == 0) GameOver();
@@ -98,6 +101,9 @@ public class Player : MonoBehaviour
         gameObject.SetActive(false);
         _spawnManagerAsteroid.OnGameOver();
         _spawnManagerEnemy.OnGameOver();
+
     }
+
+
 
 }

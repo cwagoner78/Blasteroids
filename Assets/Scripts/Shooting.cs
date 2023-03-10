@@ -4,46 +4,59 @@ using UnityEngine;
 
 public class Shooting : MonoBehaviour
 {
-    public Rigidbody rb;
-    [SerializeField] private GameObject _bulletPrefab;
+    //public Rigidbody rb;
+    [SerializeField] private GameObject _laserPrefab;
+    [SerializeField] private GameObject _triplePrefab;
     [SerializeField] private Transform _firePoint;
     [SerializeField] private GameObject _muzzleFlash;
+    [SerializeField] private GameObject _LeftWingFlash;
+    [SerializeField] private GameObject _RightWingFlash;
     
-    [SerializeField] private float _bulletForce = 20f;
-    public float bulletWaitTime = 0.1f;
+    [SerializeField] private bool _hasTripleShot = false;
+    [SerializeField] private float _bulletWaitTime = 0.25f;
+    [SerializeField] private bool _canShoot = true;
 
-    public bool isShooting = false;
-    public bool canShoot = true;
-
-
-    private void Start()
-    {
-
-    }
+    private float _powerUpWaitTimer;
 
     void Update()
     {
-        if (canShoot && Input.GetButton("Fire1"))
-        {
-            Shoot();
-        }
+        if (_canShoot && Input.GetButton("Fire1")) Shoot();
     }
 
     public void Shoot()
     {
-        isShooting = true;
-        GameObject bullet = Instantiate(_bulletPrefab, _firePoint.position, Quaternion.identity);
-        Rigidbody rb = bullet.GetComponent<Rigidbody>();
-        rb.AddForce(_firePoint.forward * _bulletForce, ForceMode.Impulse);
-        _muzzleFlash.GetComponent<ParticleSystem>().Play();
-        canShoot = false;
+        if (!_hasTripleShot)
+        {
+            _muzzleFlash.GetComponent<ParticleSystem>().Play();
+            Instantiate(_laserPrefab, _firePoint.position, Quaternion.identity);
+        }
+        else 
+        {
+            _muzzleFlash.GetComponent<ParticleSystem>().Play();
+            _LeftWingFlash.GetComponent<ParticleSystem>().Play();
+            _RightWingFlash.GetComponent<ParticleSystem>().Play();
+            Instantiate(_triplePrefab, transform.position, Quaternion.identity);
+        }
+        _canShoot = false;
         StartCoroutine(BulletWaitTimer());
     }
 
     IEnumerator BulletWaitTimer()
     { 
-        yield return new WaitForSeconds(bulletWaitTime);
-        canShoot = true;
-        isShooting = false;
+        yield return new WaitForSeconds(_bulletWaitTime);
+        _canShoot = true;
+    }
+
+    public void TripleShotActive(float timer)
+    {
+        _hasTripleShot= true;
+        
+        StartCoroutine(PowerUpTimer(timer));
+    }
+
+    IEnumerator PowerUpTimer(float timer)
+    {
+        yield return new WaitForSeconds(timer);
+        _hasTripleShot= false;
     }
 }
