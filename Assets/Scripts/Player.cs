@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
     private Animator _anim;
     private SpawnManager _spawnManagerAsteroid;
     private SpawnManager _spawnManagerEnemy;
+    private SpawnManager _spawnManagerPowerUp;
 
     private float _inputX;
     private float _inputY;
@@ -30,6 +31,7 @@ public class Player : MonoBehaviour
         transform.position = new Vector3(0, 0, 0);
         _spawnManagerAsteroid = GameObject.Find("AsteroidSpawner").GetComponent<SpawnManager>();
         _spawnManagerEnemy = GameObject.Find("EnemySpawner").GetComponent<SpawnManager>();
+        _spawnManagerPowerUp = GameObject.Find("PowerUpSpawner").GetComponent<SpawnManager>();
         if (_spawnManagerAsteroid == null || _spawnManagerEnemy == null) Debug.LogError("Spawner equals NULL");
     }
 
@@ -101,6 +103,7 @@ public class Player : MonoBehaviour
         gameObject.SetActive(false);
         _spawnManagerAsteroid.OnGameOver();
         _spawnManagerEnemy.OnGameOver();
+        _spawnManagerPowerUp.OnGameOver();
 
     }
 
