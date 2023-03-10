@@ -6,7 +6,7 @@ public class Shooting : MonoBehaviour
 {
     //public Rigidbody rb;
     [SerializeField] private GameObject _laserPrefab;
-    [SerializeField] private GameObject _triplePrefab;
+    [SerializeField] private GameObject _tripleShotPrefab;
     [SerializeField] private Transform _firePoint;
     [SerializeField] private GameObject _muzzleFlash;
     [SerializeField] private GameObject _LeftWingFlash;
@@ -35,7 +35,7 @@ public class Shooting : MonoBehaviour
             _muzzleFlash.GetComponent<ParticleSystem>().Play();
             _LeftWingFlash.GetComponent<ParticleSystem>().Play();
             _RightWingFlash.GetComponent<ParticleSystem>().Play();
-            Instantiate(_triplePrefab, transform.position, Quaternion.identity);
+            Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
         }
         _canShoot = false;
         StartCoroutine(BulletWaitTimer());
