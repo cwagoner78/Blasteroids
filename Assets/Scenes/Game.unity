@@ -14827,7 +14827,8 @@ MonoBehaviour:
   _fastest: 12
   _longest: 17
   _spawnPrefabs:
-  - {fileID: 8594188430703826697, guid: 8b34a00519e846447a9e52397f2a1f3f, type: 3}
+  - {fileID: 8594188430703826697, guid: 3a33e6e7d5608414ba129365a7db92ec, type: 3}
+  - {fileID: 3129271782196582723, guid: a9124ba750c984d4488e59b396861b32, type: 3}
   _spawnContainer: {fileID: 1525897823}
 --- !u!4 &620856943
 Transform:
@@ -14999,8 +15000,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a715349c1a95ac4fbcefdc9ea186f03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _laserPrefab: {fileID: 5387574785619489766, guid: 1fe522ba87c216c45a4b8cdd7398e7ec, type: 3}
-  _triplePrefab: {fileID: 4723347458575199598, guid: dd93c766ea1980e4aad05cb441515d12, type: 3}
+  _laserPrefab: {fileID: 5387574785619489766, guid: 1ea575fef791a1b4696bfa67c92e92ef, type: 3}
+  _tripleShotPrefab: {fileID: 4723347458575199598, guid: 5b8c713532b1f2c4fb666202ef23293e, type: 3}
   _firePoint: {fileID: 2008675859}
   _muzzleFlash: {fileID: 705548143}
   _LeftWingFlash: {fileID: 2074733172}
@@ -15144,7 +15145,7 @@ MonoBehaviour:
   _fastest: 3
   _longest: 6
   _spawnPrefabs:
-  - {fileID: 5167618129968279543, guid: 20b5cf7a4e6be2a409b319597a50112a, type: 3}
+  - {fileID: 5167618129968279543, guid: b0fd9d848d783d346bee30d7378a43c9, type: 3}
   _spawnContainer: {fileID: 2051376557}
 --- !u!4 &657445113
 Transform:
@@ -34859,9 +34860,9 @@ MonoBehaviour:
   _fastest: 3
   _longest: 6
   _spawnPrefabs:
-  - {fileID: 1184578743792276703, guid: e06c405e0b811db46baab1bcfeed815c, type: 3}
-  - {fileID: 6568513224927661511, guid: 6e2383e455d0df84b8ff40ea2424799b, type: 3}
-  - {fileID: 883795887102287592, guid: c4780abaeb9242c4b9efd50d1ec6d25f, type: 3}
+  - {fileID: 1184578743792276703, guid: 101ecb1c4355dab47aecdbcdbca50ab5, type: 3}
+  - {fileID: 6568513224927661511, guid: c528f60d6f420ab4eb677797a2b2aa06, type: 3}
+  - {fileID: 883795887102287592, guid: e7141628213561740a3b1f5b5468f3ee, type: 3}
   _spawnContainer: {fileID: 1178135787}
 --- !u!4 &2020885945
 Transform:

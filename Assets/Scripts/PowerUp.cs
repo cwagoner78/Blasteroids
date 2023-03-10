@@ -5,7 +5,13 @@ using UnityEngine;
 public class PowerUp : MonoBehaviour
 {
     [SerializeField] private float _moveSpeed = 3f;
-    [SerializeField] private float _timer = 5f;
+    [SerializeField] private float _powerUpCoolDown = 5f;
+    [SerializeField] private float _playerSpeedMultiplier = 1.2f;
+    [SerializeField] private int _powerUpID;
+
+    [SerializeField] private ParticleSystem _collectParticles;
+    [SerializeField] private ParticleSystem _trailParticles;
+
 
     private bool _trackToPlayer = false;
     private Player _player;
@@ -36,13 +42,16 @@ public class PowerUp : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            _trackToPlayer = true;
-            _shooting.TripleShotActive(_timer);
-            transform.GetComponent<SpriteRenderer>().enabled= false;
-            GameObject.Find("TS_Collect").GetComponent<ParticleSystem>().Play();
+            if (_powerUpID == 0) _player.SpeedPowerUp(_playerSpeedMultiplier, _powerUpCoolDown);
+            
+            if (_powerUpID == 1) _shooting.TripleShotActive(_powerUpCoolDown);
 
-            GameObject.Find("TS_Trail").GetComponent<ParticleSystem>().Stop();
-            Destroy(gameObject, _timer);
+
+            _trackToPlayer = true;
+            transform.GetComponent<SpriteRenderer>().enabled = false;
+            _collectParticles.Play();
+            _trailParticles.Stop();
+            Destroy(gameObject, _powerUpCoolDown);
         }
     }
 

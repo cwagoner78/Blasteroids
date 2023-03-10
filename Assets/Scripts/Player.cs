@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
 {
     [Header("Player Controls")]
     [SerializeField] private float _moveForce = 5;
+    private float _startingMoveForce;
     [SerializeField] private float _xBounds = 12f;
     [SerializeField] private float _yBounds = 5;
 
@@ -26,7 +27,8 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        _rigidbody= GetComponent<Rigidbody>();
+        _startingMoveForce = _moveForce;
+        _rigidbody = GetComponent<Rigidbody>();
         _anim = GetComponent<Animator>();
         transform.position = new Vector3(0, 0, 0);
         _spawnManagerAsteroid = GameObject.Find("AsteroidSpawner").GetComponent<SpawnManager>();
@@ -43,6 +45,7 @@ public class Player : MonoBehaviour
 
     void HandleMovement()
     {
+
         //Movement
         _inputX = Input.GetAxisRaw("Horizontal");
         _inputY = Input.GetAxisRaw("Vertical");
@@ -81,6 +84,18 @@ public class Player : MonoBehaviour
             _anim.SetBool("Idle", true);
 
         }
+    }
+
+    public void SpeedPowerUp(float multiplier, float timer)
+    { 
+        _moveForce *= multiplier;
+        StartCoroutine(SpeedUpTimer(timer));
+    }
+
+    IEnumerator SpeedUpTimer(float timer)
+    {
+        yield return new WaitForSeconds(timer);
+        _moveForce = _startingMoveForce;
     }
 
     public void Damage(int damage)
