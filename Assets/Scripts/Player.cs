@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
     private SpawnManager _spawnManagerAsteroid;
     private SpawnManager _spawnManagerEnemy;
     private SpawnManager _spawnManagerPowerUp;
+    private ParticleSystem _speedBoostStream;
 
     private float _inputX;
     private float _inputY;
@@ -34,6 +35,7 @@ public class Player : MonoBehaviour
         _spawnManagerAsteroid = GameObject.Find("AsteroidSpawner").GetComponent<SpawnManager>();
         _spawnManagerEnemy = GameObject.Find("EnemySpawner").GetComponent<SpawnManager>();
         _spawnManagerPowerUp = GameObject.Find("PowerUpSpawner").GetComponent<SpawnManager>();
+        _speedBoostStream = GameObject.Find("PlayerSpeedStream").GetComponent<ParticleSystem>();
         if (_spawnManagerAsteroid == null || _spawnManagerEnemy == null) Debug.LogError("Spawner equals NULL");
     }
 
@@ -45,7 +47,6 @@ public class Player : MonoBehaviour
 
     void HandleMovement()
     {
-
         //Movement
         _inputX = Input.GetAxisRaw("Horizontal");
         _inputY = Input.GetAxisRaw("Vertical");
@@ -88,7 +89,8 @@ public class Player : MonoBehaviour
 
     public void SpeedPowerUp(float multiplier, float timer)
     { 
-        _moveForce *= multiplier;
+        if (_moveForce < _startingMoveForce * multiplier) _moveForce *= multiplier;
+        _speedBoostStream.Play();
         StartCoroutine(SpeedUpTimer(timer));
     }
 
@@ -96,6 +98,7 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(timer);
         _moveForce = _startingMoveForce;
+        _speedBoostStream.Stop();
     }
 
     public void Damage(int damage)
