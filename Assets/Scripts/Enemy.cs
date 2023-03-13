@@ -14,13 +14,13 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        transform.Translate(Vector3.forward * _speed * Time.deltaTime) ;
+        transform.Translate(Vector3.forward * Random.Range(_speed / 1.5f, _speed * 1.5f)  * Time.deltaTime) ;
         if (transform.position.y < -_yPosBound + 10f) Destroy(gameObject); 
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Projectile")) //|| collision.gameObject.CompareTag("Asteroid")
+        if (collision.gameObject.CompareTag("Projectile") || collision.gameObject.CompareTag("Asteroid"))
         {
             Destroy(collision.gameObject);
             _explosion.Play();

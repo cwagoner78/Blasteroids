@@ -28,7 +28,7 @@ public class PowerUp : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(Vector3.down * _moveSpeed * Time.deltaTime);
+        transform.Translate(Vector3.down * Random.Range(_moveSpeed / 1.5f, _moveSpeed * 1.5f) * Time.deltaTime);
         if (transform.position.y < -20f) Destroy(gameObject);
         
         if (_trackToPlayer)
