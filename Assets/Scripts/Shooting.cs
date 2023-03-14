@@ -5,6 +5,7 @@ using UnityEngine;
 public class Shooting : MonoBehaviour
 {
     //public Rigidbody rb;
+    [Header("Object Assignments")]
     [SerializeField] private GameObject _laserPrefab;
     [SerializeField] private GameObject _tripleShotPrefab;
     [SerializeField] private Transform _firePoint;
@@ -12,11 +13,13 @@ public class Shooting : MonoBehaviour
     [SerializeField] private GameObject _LeftWingFlash;
     [SerializeField] private GameObject _RightWingFlash;
     
-    [SerializeField] private bool _hasTripleShot = false;
+    [Header("Cool Downs")]    
     [SerializeField] private float _bulletWaitTime = 0.25f;
-    [SerializeField] private float _powerUpCoolDown = 5f;
+    [SerializeField] private float _tripleShotCoolDown = 5f;
 
+    [Header("Flags")]
     [SerializeField] private bool _canShoot = true;
+    [SerializeField] private bool _hasTripleShot = false;
 
 
     void Update()
@@ -52,7 +55,7 @@ public class Shooting : MonoBehaviour
     {
         _hasTripleShot= true;
         
-        StartCoroutine(PowerUpTimer(_powerUpCoolDown));
+        StartCoroutine(PowerUpTimer(_tripleShotCoolDown));
     }
 
     IEnumerator PowerUpTimer(float timer)

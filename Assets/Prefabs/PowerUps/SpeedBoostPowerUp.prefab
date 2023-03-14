@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8628120119319514624}
   - component: {fileID: 4036083829971343998}
   m_Layer: 0
-  m_Name: Speed_Collect
+  m_Name: SP_Collect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4981,7 +4981,7 @@ GameObject:
   - component: {fileID: 6665611925987213398}
   - component: {fileID: 5310940239382390497}
   m_Layer: 0
-  m_Name: SpeedPowerUp
+  m_Name: SpeedBoostPowerUp
   m_TagString: SpeedPU
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5131,12 +5131,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35c41fca8b2d42c4d89894619f8a38a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveSpeed: 4
-  _powerUpCoolDown: 5
-  _playerSpeedMultiplier: 1.5
   _powerUpID: 0
-  _collectParticles: {fileID: 8628120119319514624}
+  _moveSpeed: 4
   _trailParticles: {fileID: 3841638343866624528}
+  _collectParticles: {fileID: 8628120119319514624}
 --- !u!1 &7299163302569211151
 GameObject:
   m_ObjectHideFlags: 0
@@ -5149,7 +5147,7 @@ GameObject:
   - component: {fileID: 3841638343866624528}
   - component: {fileID: 3057145842264622113}
   m_Layer: 0
-  m_Name: Speed_Trail
+  m_Name: SP_Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5163,7 +5161,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7299163302569211151}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1.71}
+  m_LocalPosition: {x: 0, y: 0, z: 0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
