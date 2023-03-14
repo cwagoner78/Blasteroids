@@ -14,9 +14,10 @@ public class Shooting : MonoBehaviour
     
     [SerializeField] private bool _hasTripleShot = false;
     [SerializeField] private float _bulletWaitTime = 0.25f;
+    [SerializeField] private float _powerUpCoolDown = 5f;
+
     [SerializeField] private bool _canShoot = true;
 
-    private float _powerUpWaitTimer;
 
     void Update()
     {
@@ -47,11 +48,11 @@ public class Shooting : MonoBehaviour
         _canShoot = true;
     }
 
-    public void TripleShotActive(float timer)
+    public void TripleShotActive()
     {
         _hasTripleShot= true;
         
-        StartCoroutine(PowerUpTimer(timer));
+        StartCoroutine(PowerUpTimer(_powerUpCoolDown));
     }
 
     IEnumerator PowerUpTimer(float timer)
