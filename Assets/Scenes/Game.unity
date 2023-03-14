@@ -14894,9 +14894,9 @@ MonoBehaviour:
   _fastest: 9
   _longest: 12
   _spawnPrefabs:
-  - {fileID: 3129271782196582723, guid: 34cb3a1499911da4b8cc94febb427e02, type: 3}
-  - {fileID: 8594188430703826697, guid: 3a33e6e7d5608414ba129365a7db92ec, type: 3}
-  - {fileID: 1028080269549880315, guid: a4ba178f7f79aba40a7cfed373585094, type: 3}
+  - {fileID: 3129271782196582723, guid: 9943d99728670f549aceda4771b4ac78, type: 3}
+  - {fileID: 8594188430703826697, guid: d8cc547fa2eb3d84ba9a1ae9f7328d82, type: 3}
+  - {fileID: 1028080269549880315, guid: 3d1ec1b3a9c7d054dbdc28eb0f8b1bca, type: 3}
   _spawnContainer: {fileID: 1525897823}
 --- !u!4 &620856943
 Transform:
@@ -15072,7 +15072,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _laserPrefab: {fileID: 5387574785619489766, guid: 1ea575fef791a1b4696bfa67c92e92ef, type: 3}
-  _tripleShotPrefab: {fileID: 4723347458575199598, guid: 5b8c713532b1f2c4fb666202ef23293e, type: 3}
+  _tripleShotPrefab: {fileID: 4723347458575199598, guid: 027e28589293ec0479f3c8d73a9dd365, type: 3}
   _firePoint: {fileID: 2008675859}
   _muzzleFlash: {fileID: 705548143}
   _LeftWingFlash: {fileID: 2074733172}
@@ -25243,6 +25243,63 @@ Transform:
   m_Father: {fileID: 374303531}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1867884255
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1729681480226103103, guid: 027e28589293ec0479f3c8d73a9dd365, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1729681480226103103, guid: 027e28589293ec0479f3c8d73a9dd365, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1729681480226103103, guid: 027e28589293ec0479f3c8d73a9dd365, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1729681480226103103, guid: 027e28589293ec0479f3c8d73a9dd365, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1729681480226103103, guid: 027e28589293ec0479f3c8d73a9dd365, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1729681480226103103, guid: 027e28589293ec0479f3c8d73a9dd365, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1729681480226103103, guid: 027e28589293ec0479f3c8d73a9dd365, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1729681480226103103, guid: 027e28589293ec0479f3c8d73a9dd365, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1729681480226103103, guid: 027e28589293ec0479f3c8d73a9dd365, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1729681480226103103, guid: 027e28589293ec0479f3c8d73a9dd365, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1729681480226103103, guid: 027e28589293ec0479f3c8d73a9dd365, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4723347458575199598, guid: 027e28589293ec0479f3c8d73a9dd365, type: 3}
+      propertyPath: m_Name
+      value: TripleShot
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 027e28589293ec0479f3c8d73a9dd365, type: 3}
 --- !u!1 &1877387605
 GameObject:
   m_ObjectHideFlags: 0
