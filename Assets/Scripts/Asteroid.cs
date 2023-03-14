@@ -33,9 +33,10 @@ public class Asteroid : MonoBehaviour
         if (collision.gameObject.CompareTag("Projectile"))
         {
             Destroy(collision.gameObject);
-            _explosion.Play();
+
             if (transform.localScale.x > .25f)
             {
+                _explosion.Play();
                 transform.localScale = transform.localScale / 2;
                 _rb.mass = _rb.mass / 1.5f;
                 GameObject newSpawn = Instantiate(_asteroid);
@@ -50,13 +51,44 @@ public class Asteroid : MonoBehaviour
             } 
         }
 
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            if (transform.localScale.x > .25f)
+            {
+                _explosion.Play();
+                transform.localScale = transform.localScale / 2;
+                _rb.mass = _rb.mass / 1.5f;
+                GameObject newSpawn = Instantiate(_asteroid);
+                newSpawn.transform.parent = _spawnContainer.transform;
+            }
+            else
+            {
+                _explosion.Play();
+                _mesh.enabled = false;
+                _collider.enabled = false;
+                Destroy(gameObject, 5f);
+            }
+        }
+
         if (collision.gameObject.CompareTag("Player"))
         {
-            _explosion.Play();
-            _mesh.enabled = false;
-            _collider.enabled = false;
             collision.transform.GetComponent<Player>().Damage(damage);
-            Destroy(gameObject, 5f);
+
+            if (transform.localScale.x > .25f)
+            {
+                _explosion.Play();
+                transform.localScale = transform.localScale / 2;
+                _rb.mass = _rb.mass / 1.5f;
+                GameObject newSpawn = Instantiate(_asteroid);
+                newSpawn.transform.parent = _spawnContainer.transform;
+            }
+            else
+            {
+                _explosion.Play();
+                _mesh.enabled = false;
+                _collider.enabled = false;
+                Destroy(gameObject, 5f);
+            }
         }
     }
     void HandleMovement()

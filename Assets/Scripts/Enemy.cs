@@ -20,28 +20,31 @@ public class Enemy : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Projectile") || collision.gameObject.CompareTag("Asteroid"))
+        if (collision.gameObject.CompareTag("Projectile"))
         {
             Destroy(collision.gameObject);
             _explosion.Play();
-            StartCoroutine(DestroyObject());
+            _mesh.enabled = false;
+            _collider.enabled = false;
+            Destroy(gameObject, 5f);
+        }
+
+        if (collision.gameObject.CompareTag("Asteroid"))
+        {
+            _explosion.Play();
+            _mesh.enabled = false;
+            _collider.enabled = false;
+            Destroy(gameObject, 5f);
         }
 
         if (collision.gameObject.CompareTag("Player"))
         {
             collision.transform.GetComponent<Player>().Damage(damage);
-
             _explosion.Play();
-            StartCoroutine(DestroyObject());
+            _mesh.enabled = false;
+            _collider.enabled = false;
+            Destroy(gameObject, 5f);
         }
-    }
-
-    IEnumerator DestroyObject()
-    {
-        _mesh.enabled = false;
-        _collider.enabled = false;
-        yield return new WaitForSeconds(5f);
-        Destroy(gameObject);
     }
 }
 
