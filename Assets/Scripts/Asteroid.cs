@@ -43,6 +43,7 @@ public class Asteroid : MonoBehaviour
             }
             else
             {
+                _explosion.Play();
                 _mesh.enabled = false;
                 _collider.enabled = false;
                 Destroy(gameObject, 5f);
@@ -51,8 +52,11 @@ public class Asteroid : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Player"))
         {
+            _explosion.Play();
+            _mesh.enabled = false;
+            _collider.enabled = false;
             collision.transform.GetComponent<Player>().Damage(damage);
-            Destroy(gameObject);
+            Destroy(gameObject, 5f);
         }
     }
     void HandleMovement()
