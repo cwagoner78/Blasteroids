@@ -7,7 +7,7 @@ public class PowerUp : MonoBehaviour
     [SerializeField] private float _moveSpeed = 3f;
     [SerializeField] private float _powerUpCoolDown = 5f;
     [SerializeField] private float _playerSpeedMultiplier = 1.2f;
-    [SerializeField] private int _powerUpID;
+    [SerializeField] private int _powerUpID; // '0' = SpeedBoost, '1' = TripleShot, '2' Shields
 
     [SerializeField] private ParticleSystem _collectParticles;
     [SerializeField] private ParticleSystem _trailParticles;
@@ -42,10 +42,13 @@ public class PowerUp : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            if (_powerUpID == 0) _player.SpeedPowerUp(_playerSpeedMultiplier, _powerUpCoolDown);
-            
-            if (_powerUpID == 1) _shooting.TripleShotActive(_powerUpCoolDown);
-
+            switch (_powerUpID)
+            {
+                case 0: _player.SpeedPowerUp(); break;
+                case 1: _shooting.TripleShotActive(); break;
+                case 2: Debug.Log("ShieldCollected"); break; //Needs implementation 
+                default: Debug.Log("Default Value"); break;
+            }
 
             _trackToPlayer = true;
             transform.GetComponent<SpriteRenderer>().enabled = false;

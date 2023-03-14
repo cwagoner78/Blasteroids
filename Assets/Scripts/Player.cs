@@ -7,7 +7,11 @@ public class Player : MonoBehaviour
 {
     [Header("Player Controls")]
     [SerializeField] private float _moveForce = 5;
-    private float _startingMoveForce;
+    [SerializeField] private bool _speedBoostActive = false;
+    [SerializeField] private float _speedBoostMultiplier = 1.5f;
+    [SerializeField] private float _powerUpTimer = 5f;
+
+    [Header("Boundaries")]
     [SerializeField] private float _xBounds = 12f;
     [SerializeField] private float _yBounds = 5;
 
@@ -22,9 +26,10 @@ public class Player : MonoBehaviour
     private SpawnManager _spawnManagerEnemy;
     private SpawnManager _spawnManagerPowerUp;
     private ParticleSystem _speedBoostStream;
-
+    private float _startingMoveForce;
     private float _inputX;
     private float _inputY;
+
 
     void Start()
     {
@@ -43,6 +48,7 @@ public class Player : MonoBehaviour
     {
         HandleMovement();
         HandleAnimation();
+
     }
 
     void HandleMovement()
@@ -51,6 +57,13 @@ public class Player : MonoBehaviour
         _inputX = Input.GetAxisRaw("Horizontal");
         _inputY = Input.GetAxisRaw("Vertical");
         Vector3 movement = new Vector3(_inputX, _inputY);
+
+        if (_speedBoostActive && _moveForce < _startingMoveForce * _speedBoostMultiplier)
+        {
+            _moveForce *= _speedBoostMultiplier;
+            _speedBoostStream.Play();
+            StartCoroutine(SpeedUpTimer(_powerUpTimer));
+        } 
         _rigidbody.AddForce(movement * _moveForce);
 
         //Bounds
@@ -87,11 +100,12 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void SpeedPowerUp(float multiplier, float timer)
-    { 
-        if (_moveForce < _startingMoveForce * multiplier) _moveForce *= multiplier;
-        _speedBoostStream.Play();
-        StartCoroutine(SpeedUpTimer(timer));
+    public void SpeedPowerUp()
+    {
+        //if (_moveForce < _startingMoveForce * multiplier) _moveForce *= multiplier;
+        //_speedBoostStream.Play();
+        //StartCoroutine(SpeedUpTimer(timer));
+        _speedBoostActive = true;
     }
 
     IEnumerator SpeedUpTimer(float timer)
@@ -99,6 +113,7 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(timer);
         _moveForce = _startingMoveForce;
         _speedBoostStream.Stop();
+        _speedBoostActive = false;
     }
 
     public void Damage(int damage)
