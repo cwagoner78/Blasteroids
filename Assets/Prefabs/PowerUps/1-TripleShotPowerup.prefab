@@ -31,7 +31,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8594188430703826697}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 8.1, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -180,11 +180,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35c41fca8b2d42c4d89894619f8a38a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveSpeed: 4
-  _powerUpCoolDown: 5
   _powerUpID: 1
-  _collectParticles: {fileID: 8594188432563509530}
+  _moveSpeed: 4
   _trailParticles: {fileID: 8594188431388269896}
+  _collectParticles: {fileID: 8594188432563509530}
 --- !u!1 &8594188431388269895
 GameObject:
   m_ObjectHideFlags: 0

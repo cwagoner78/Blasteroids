@@ -18,8 +18,7 @@ public class Player : MonoBehaviour
     [Header("Player Health")]
     [SerializeField] private int _startingHealth = 1;
     [SerializeField] private int _lives = 3;
-    [SerializeField] private float _shieldCoolDown = 5f;
-    [SerializeField] private bool _shieldsActive = false;
+    public bool shieldsActive = false;
 
     private int _health = 1;
     private Rigidbody _rigidbody;
@@ -29,6 +28,7 @@ public class Player : MonoBehaviour
     private SpawnManager _spawnManagerPowerUp;
     private ParticleSystem _speedBoostStream;
     private SpriteRenderer _shields;
+    private Shooting _shooting;
     private float _startingMoveForce;
     private float _inputX;
     private float _inputY;
@@ -45,6 +45,7 @@ public class Player : MonoBehaviour
         _spawnManagerPowerUp = GameObject.Find("PowerUpSpawner").GetComponent<SpawnManager>();
         _speedBoostStream = GameObject.Find("PlayerSpeedStream").GetComponent<ParticleSystem>();
         _shields = GameObject.Find("ShieldSprite").GetComponent<SpriteRenderer>();
+        _shooting = FindObjectOfType<Shooting>();
         if (_spawnManagerAsteroid == null || _spawnManagerEnemy == null || _spawnManagerPowerUp == null) Debug.LogError("Spawner equals NULL");
     }
 
@@ -70,8 +71,8 @@ public class Player : MonoBehaviour
         _rigidbody.AddForce(movement * _moveForce);
 
         //Shield Movement
-        if (_shieldsActive) ShieldPowerUp();
-        _shields.transform.position = transform.position;
+        if (shieldsActive) ShieldPowerUp();
+        _shields.transform.position = transform.position - new Vector3(0,0,1);
 
         //Bounds
         Vector3 position = transform.position;
@@ -122,27 +123,26 @@ public class Player : MonoBehaviour
 
     public void ShieldPowerUp()
     {
-        _shieldsActive = true;
+        shieldsActive = true;
         _shields.enabled = true;
-        StartCoroutine(ShieldTimer(_shieldCoolDown));
     }
 
-    IEnumerator ShieldTimer(float timer)
+    private void OnCollisionEnter(Collision collision)
     {
-        yield return new WaitForSeconds(timer);
+        shieldsActive = false;
         _shields.enabled = false;
-        _shieldsActive = false;
     }
 
     public void Damage(int damage)
     {
-        if (_shieldsActive) return;
+        if (shieldsActive) return;
         else _health -= damage;
 
         if (_health <= 0)
         {
             _lives--;
             transform.position = new Vector3(0, 0, 0);
+            _shooting.DisableTripleShot();
             _health = _startingHealth;
         }
 
@@ -158,7 +158,6 @@ public class Player : MonoBehaviour
         _spawnManagerPowerUp.OnGameOver();
 
     }
-
 
 
 }

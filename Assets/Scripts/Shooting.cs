@@ -15,11 +15,10 @@ public class Shooting : MonoBehaviour
     
     [Header("Cool Downs")]    
     [SerializeField] private float _bulletWaitTime = 0.25f;
-    [SerializeField] private float _tripleShotCoolDown = 5f;
 
     [Header("Flags")]
     [SerializeField] private bool _canShoot = true;
-    [SerializeField] private bool _hasTripleShot = false;
+    public bool hasTripleShot = false;
 
 
     void Update()
@@ -29,7 +28,7 @@ public class Shooting : MonoBehaviour
 
     public void Shoot()
     {
-        if (!_hasTripleShot)
+        if (!hasTripleShot)
         {
             _muzzleFlash.GetComponent<ParticleSystem>().Play();
             Instantiate(_laserPrefab, _firePoint.position, Quaternion.identity);
@@ -53,14 +52,17 @@ public class Shooting : MonoBehaviour
 
     public void TripleShotActive()
     {
-        _hasTripleShot= true;
-        
-        StartCoroutine(PowerUpTimer(_tripleShotCoolDown));
+        hasTripleShot = true;
     }
 
     IEnumerator PowerUpTimer(float timer)
     {
         yield return new WaitForSeconds(timer);
-        _hasTripleShot= false;
+        hasTripleShot = false;
+    }
+
+    public void DisableTripleShot()
+    {
+        hasTripleShot = false;
     }
 }
