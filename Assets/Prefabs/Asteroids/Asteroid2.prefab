@@ -134,7 +134,8 @@ MonoBehaviour:
   _explosion: {fileID: 7080011985008373876}
   _collider: {fileID: 5350924564823142496}
   _mesh: {fileID: 6568513224927661626}
-  damage: 1
+  _damage: 1
+  _pointVal: 1
 --- !u!1001 &815358590520034570
 PrefabInstance:
   m_ObjectHideFlags: 0
