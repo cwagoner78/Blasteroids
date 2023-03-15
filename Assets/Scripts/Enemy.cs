@@ -10,7 +10,17 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Collider _collider;
     [SerializeField] private ParticleSystem _explosion;
     [SerializeField] private MeshRenderer _mesh;
-    public int damage = 1;
+
+    [Header("Damage and Point Val")]
+    [SerializeField] private int _damage = 1;
+    [SerializeField] private int _pointVal = 10;
+    private UIManager _uiManager;
+
+
+    private void Start()
+    {
+        _uiManager = FindObjectOfType<UIManager>();
+    }
 
     void Update()
     {
@@ -27,6 +37,7 @@ public class Enemy : MonoBehaviour
             _mesh.enabled = false;
             _collider.enabled = false;
             Destroy(gameObject, 5f);
+            _uiManager.AddScore(_pointVal);
         }
 
         if (collision.gameObject.CompareTag("Asteroid"))
@@ -39,7 +50,7 @@ public class Enemy : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Player"))
         {
-            collision.transform.GetComponent<Player>().Damage(damage);
+            collision.transform.GetComponent<Player>().Damage(_damage);
             _explosion.Play();
             _mesh.enabled = false;
             _collider.enabled = false;

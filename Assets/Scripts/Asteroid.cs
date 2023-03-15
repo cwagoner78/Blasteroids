@@ -11,9 +11,12 @@ public class Asteroid : MonoBehaviour
     [SerializeField] private Collider _collider;
     [SerializeField] private MeshRenderer _mesh;
     private GameObject _spawnContainer;
-    public int damage = 1;
     private Rigidbody _rb;
     private Vector3 _rotation;
+
+    [Header("Damage and Point Val")]
+    [SerializeField] private int _damage = 1;
+    [SerializeField] private int _pointVal = 1;
 
     void Start()
     {
@@ -41,6 +44,7 @@ public class Asteroid : MonoBehaviour
                 _rb.mass = _rb.mass / 1.5f;
                 GameObject newSpawn = Instantiate(_asteroid);
                 newSpawn.transform.parent = _spawnContainer.transform;
+                FindObjectOfType<UIManager>().AddScore(_pointVal);
             }
             else
             {
@@ -48,6 +52,7 @@ public class Asteroid : MonoBehaviour
                 _mesh.enabled = false;
                 _collider.enabled = false;
                 Destroy(gameObject, 5f);
+                FindObjectOfType<UIManager>().AddScore(_pointVal);
             } 
         }
 
@@ -72,7 +77,7 @@ public class Asteroid : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Player"))
         {
-            collision.transform.GetComponent<Player>().Damage(damage);
+            collision.transform.GetComponent<Player>().Damage(_damage);
 
             if (transform.localScale.x > .25f)
             {

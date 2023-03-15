@@ -33,6 +33,9 @@ public class Player : MonoBehaviour
     private float _inputX;
     private float _inputY;
 
+    //UI Update variables
+    [SerializeField] private int _score;
+
 
     void Start()
     {
@@ -149,6 +152,8 @@ public class Player : MonoBehaviour
         if (_lives == 0) GameOver();
 
     }
+
+
 
     public void GameOver()
     {
