@@ -47,7 +47,7 @@ Material:
     - _Ambient: 0.5
     - _Bevel: 0.85
     - _BevelClamp: 0
-    - _BevelOffset: -0.030000014
+    - _BevelOffset: 0.089999974
     - _BevelRoundness: 0.424
     - _BevelWidth: 0.036
     - _BumpFace: 0
@@ -60,7 +60,7 @@ Material:
     - _FaceUVSpeedY: 0
     - _GlowInner: 0.484
     - _GlowOffset: -0.22
-    - _GlowOuter: 0.599
+    - _GlowOuter: 0.618
     - _GlowPower: 0.231
     - _GradientScale: 6
     - _LightAngle: 3.1416
