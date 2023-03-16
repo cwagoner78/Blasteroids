@@ -14,11 +14,16 @@ public class PowerUp : MonoBehaviour
     private Player _player;
     private Shooting _shooting;
 
+    [Header("Point Value")]
+    [SerializeField] private int _pointVal = 50;
+    private UIManager _uiManager;
+
     // Start is called before the first frame update
     void Start()
     {
         _player = FindObjectOfType<Player>();
         _shooting = GameObject.Find("Player").GetComponent<Shooting>();
+        _uiManager = FindObjectOfType<UIManager>();
     }
 
     // Update is called once per frame
@@ -47,9 +52,11 @@ public class PowerUp : MonoBehaviour
                 _colliders[i].enabled = false;
             }
 
+            _uiManager.AddScore(_pointVal);
             transform.GetComponent<SpriteRenderer>().enabled = false;
             _collectParticles.Play();
             _trailParticles.Stop();
+            GetComponentInChildren<Light>().enabled = false;
             Destroy(gameObject, 3);
         }
     }

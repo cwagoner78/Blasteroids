@@ -17,6 +17,7 @@ public class Asteroid : MonoBehaviour
     [Header("Damage and Point Val")]
     [SerializeField] private int _damage = 1;
     [SerializeField] private int _pointVal = 1;
+    private UIManager _uiManager;
 
     void Start()
     {
@@ -24,6 +25,7 @@ public class Asteroid : MonoBehaviour
         _rb.AddForce(Vector3.down * Random.Range(_movementSpeed, _movementSpeed * 2), ForceMode.Impulse);
         _rotation = new Vector3(Random.Range(-_rotSpeed, _rotSpeed), Random.Range(-_rotSpeed, _rotSpeed), Random.Range(-_rotSpeed, _rotSpeed));
         _spawnContainer = GameObject.Find("AsteroidContainer");
+        _uiManager = FindObjectOfType<UIManager>();
     }
 
     void Update()
@@ -44,7 +46,7 @@ public class Asteroid : MonoBehaviour
                 _rb.mass = _rb.mass / 1.5f;
                 GameObject newSpawn = Instantiate(_asteroid);
                 newSpawn.transform.parent = _spawnContainer.transform;
-                FindObjectOfType<UIManager>().AddScore(_pointVal);
+                _uiManager.AddScore(_pointVal);
             }
             else
             {
@@ -58,6 +60,7 @@ public class Asteroid : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Enemy"))
         {
+            if (_spawnContainer == null) return;
             if (transform.localScale.x > .25f)
             {
                 _explosion.Play();

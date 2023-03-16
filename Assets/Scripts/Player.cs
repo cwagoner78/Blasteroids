@@ -28,6 +28,7 @@ public class Player : MonoBehaviour
     private SpawnManager _spawnManagerPowerUp;
     private ParticleSystem _speedBoostStream;
     private SpriteRenderer _shields;
+    private GameOverAnimation _gameOver;
     private Shooting _shooting;
     private float _startingMoveForce;
     private float _inputX;
@@ -35,6 +36,7 @@ public class Player : MonoBehaviour
 
     //UI Update variables
     [SerializeField] private int _score;
+    private UIManager _uiManager;
 
 
     void Start()
@@ -46,6 +48,9 @@ public class Player : MonoBehaviour
         _spawnManagerAsteroid = GameObject.Find("AsteroidSpawner").GetComponent<SpawnManager>();
         _spawnManagerEnemy = GameObject.Find("EnemySpawner").GetComponent<SpawnManager>();
         _spawnManagerPowerUp = GameObject.Find("PowerUpSpawner").GetComponent<SpawnManager>();
+        _gameOver = FindObjectOfType<GameOverAnimation>();
+        _uiManager = FindObjectOfType<UIManager>();
+        _uiManager.UpdateLives(_lives);
         _speedBoostStream = GameObject.Find("PlayerSpeedStream").GetComponent<ParticleSystem>();
         _shields = GameObject.Find("ShieldSprite").GetComponent<SpriteRenderer>();
         _shooting = FindObjectOfType<Shooting>();
@@ -144,6 +149,7 @@ public class Player : MonoBehaviour
         if (_health <= 0)
         {
             _lives--;
+            _uiManager.UpdateLives(_lives);
             transform.position = new Vector3(0, 0, 0);
             _shooting.DisableTripleShot();
             _health = _startingHealth;
@@ -153,14 +159,14 @@ public class Player : MonoBehaviour
 
     }
 
-
-
     public void GameOver()
     {
         gameObject.SetActive(false);
         _spawnManagerAsteroid.OnGameOver();
         _spawnManagerEnemy.OnGameOver();
         _spawnManagerPowerUp.OnGameOver();
+        _uiManager.OnGameOver();
+        _gameOver.OnGameOver();
 
     }
 
