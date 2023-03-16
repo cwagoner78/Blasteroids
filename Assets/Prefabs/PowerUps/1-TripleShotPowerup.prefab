@@ -184,6 +184,7 @@ MonoBehaviour:
   _moveSpeed: 4
   _trailParticles: {fileID: 8594188431388269896}
   _collectParticles: {fileID: 8594188432563509530}
+  _pointVal: 50
 --- !u!1 &8594188431388269895
 GameObject:
   m_ObjectHideFlags: 0
@@ -5117,7 +5118,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8594188432563509529}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
