@@ -23,6 +23,7 @@ public class Player : MonoBehaviour
     private int _health = 1;
     private Rigidbody _rigidbody;
     private Animator _anim;
+    private GameManager _gameManager;
     private SpawnManager _spawnManagerAsteroid;
     private SpawnManager _spawnManagerEnemy;
     private SpawnManager _spawnManagerPowerUp;
@@ -45,6 +46,7 @@ public class Player : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         _anim = GetComponent<Animator>();
         transform.position = new Vector3(0, 0, 0);
+        _gameManager = FindObjectOfType<GameManager>();
         _spawnManagerAsteroid = GameObject.Find("AsteroidSpawner").GetComponent<SpawnManager>();
         _spawnManagerEnemy = GameObject.Find("EnemySpawner").GetComponent<SpawnManager>();
         _spawnManagerPowerUp = GameObject.Find("PowerUpSpawner").GetComponent<SpawnManager>();
@@ -167,6 +169,7 @@ public class Player : MonoBehaviour
         _spawnManagerPowerUp.OnGameOver();
         _uiManager.OnGameOver();
         _gameOver.OnGameOver();
+        _gameManager.GameOver();
 
     }
 
