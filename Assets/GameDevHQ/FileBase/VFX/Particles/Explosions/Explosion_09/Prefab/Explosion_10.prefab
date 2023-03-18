@@ -4988,7 +4988,7 @@ GameObject:
   - component: {fileID: 7571110843994879358}
   - component: {fileID: 7571110843994879357}
   m_Layer: 0
-  m_Name: Explosion_09
+  m_Name: Explosion_10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6632,7 +6632,7 @@ ParticleSystem:
     z:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: -10
       minScalar: 0
       maxCurve:
         serializedVersion: 2
