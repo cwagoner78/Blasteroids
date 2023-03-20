@@ -43,7 +43,7 @@ public class Asteroid : MonoBehaviour
         if (_powerUpSpawner == null) Debug.LogError("_powerUpSpawner is NULL");
 
         _player = FindObjectOfType<Player>();
-        if (_player == null) Debug.LogError("_player is NULL");
+        //if (_player == null) Debug.LogError("_player is NULL");
 
         _rb.AddForce(Vector3.down * Random.Range(_movementSpeed, _movementSpeed * 2), ForceMode.Impulse);
         _rotation = new Vector3(Random.Range(-_rotSpeed, _rotSpeed), Random.Range(-_rotSpeed, _rotSpeed), Random.Range(-_rotSpeed, _rotSpeed));
@@ -81,7 +81,7 @@ public class Asteroid : MonoBehaviour
                 _explosion.Play();
                 _mesh.enabled = false;
                 _collider.enabled = false;
-                Destroy(gameObject, 1.5f);
+                Destroy(gameObject, 3f);
                 _uiManager.AddScore(_pointVal);
             } 
         }
@@ -102,7 +102,7 @@ public class Asteroid : MonoBehaviour
                 _explosion.Play();
                 _mesh.enabled = false;
                 _collider.enabled = false;
-                Destroy(gameObject, 1.5f);
+                Destroy(gameObject, 3f);
             }
         }
 
@@ -123,7 +123,7 @@ public class Asteroid : MonoBehaviour
                 _explosion.Play();
                 _mesh.enabled = false;
                 _collider.enabled = false;
-                Destroy(gameObject, 1.5f);
+                Destroy(gameObject, 3f);
             }
         }
     }

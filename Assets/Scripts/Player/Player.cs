@@ -20,6 +20,8 @@ public class Player : MonoBehaviour
     [SerializeField] private int _lives = 3;
     public bool shieldsActive = false;
     [SerializeField] private ParticleSystem _explosionEffect;
+    [SerializeField] private ParticleSystem _leftDamage;
+    [SerializeField] private ParticleSystem _rightDamage;
 
     private int _health = 1;
     private Rigidbody _rigidbody;
@@ -29,7 +31,9 @@ public class Player : MonoBehaviour
     private SpawnManager _spawnManagerEnemy;
     private SpawnManager _spawnManagerPowerUp;
     private ParticleSystem _speedBoostStream;
+    private TrailRenderer _thruster;
     private SpriteRenderer _shields;
+
     private GameOverAnimation _gameOver;
     private Shooting _shooting;
     private float _startingMoveForce;
@@ -69,6 +73,9 @@ public class Player : MonoBehaviour
         _speedBoostStream = GameObject.Find("PlayerSpeedStream").GetComponent<ParticleSystem>();
         if (_speedBoostStream == null) Debug.LogError("_speedBoostStream is NULL");
 
+        _thruster = GameObject.Find("Thruster").GetComponent<TrailRenderer>();
+        if (_speedBoostStream == null) Debug.LogError("_speedBoostStream is NULL");
+
         _shields = GameObject.Find("ShieldSprite").GetComponent<SpriteRenderer>();
         if (_shields == null) Debug.LogError("_shields is NULL");
 
@@ -78,6 +85,7 @@ public class Player : MonoBehaviour
         transform.position = new Vector3(0, 0, 0);
         _startingMoveForce = _moveForce;
         _uiManager.UpdateLives(_lives);
+
     }
 
     void FixedUpdate()
@@ -97,6 +105,7 @@ public class Player : MonoBehaviour
         {
             _moveForce *= _speedBoostMultiplier;
             _speedBoostStream.Play();
+            _thruster.enabled = true;
             StartCoroutine(SpeedUpTimer(_speedBoostCoolDown));
         } 
         _rigidbody.AddForce(movement * _moveForce);
@@ -149,6 +158,7 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(timer);
         _moveForce = _startingMoveForce;
         _speedBoostStream.Stop();
+        _thruster.enabled = false;
         _speedBoostActive = false;
     }
 
@@ -170,9 +180,7 @@ public class Player : MonoBehaviour
         { 
             _explosionEffect.Play();
         }
-
-
-    }
+            }
 
     public void Damage(int damage)
     {
@@ -183,24 +191,25 @@ public class Player : MonoBehaviour
         {
             _lives--;
             _uiManager.UpdateLives(_lives);
-            transform.position = new Vector3(0, 0, 0);
             _shooting.DisableTripleShot();
             _health = _startingHealth;
         }
 
+        if (_lives == 2) _leftDamage.Play();
+        if (_lives == 1) _rightDamage.Play();
         if (_lives == 0) GameOver();
 
     }
 
     public void GameOver()
     {
-        gameObject.SetActive(false);
+        _gameOver.OnGameOver();
+        _gameManager.GameOver();
         _spawnManagerAsteroid.OnGameOver();
         _spawnManagerEnemy.OnGameOver();
         _spawnManagerPowerUp.OnGameOver();
         _uiManager.OnGameOver();
-        _gameOver.OnGameOver();
-        _gameManager.GameOver();
+        gameObject.SetActive(false);
 
     }
 
