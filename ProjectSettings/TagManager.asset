@@ -10,11 +10,14 @@ TagManager:
   - SpeedPU
   - TripleShotPU
   - Shield
+  - EnemySpawner
+  - PowerUpSpawner
+  - AsteroidSpawner
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - PostProcessing
   - Water
   - UI
   - 

@@ -144,7 +144,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6218759497747521841, guid: 8b2266d5da369754dbc99128fcbfc788, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7571110842780724417, guid: 8b2266d5da369754dbc99128fcbfc788, type: 3}
       propertyPath: m_IsActive
@@ -174,13 +174,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Explosion_10
       objectReference: {fileID: 0}
+    - target: {fileID: 7571110843994879357, guid: 8b2266d5da369754dbc99128fcbfc788, type: 3}
+      propertyPath: m_SortingOrder
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7571110843994879358, guid: 8b2266d5da369754dbc99128fcbfc788, type: 3}
       propertyPath: SubModule.enabled
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7571110843994879358, guid: 8b2266d5da369754dbc99128fcbfc788, type: 3}
       propertyPath: VelocityModule.z.scalar
-      value: -10
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7571110843994879359, guid: 8b2266d5da369754dbc99128fcbfc788, type: 3}
       propertyPath: m_RootOrder

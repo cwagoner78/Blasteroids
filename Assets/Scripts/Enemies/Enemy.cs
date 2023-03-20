@@ -39,7 +39,7 @@ public class Enemy : MonoBehaviour
             _explosion.Play();
             _mesh.enabled = false;
             _collider.enabled = false;
-            Destroy(gameObject, 1.5f);
+            Destroy(gameObject, 3f);
             _uiManager.AddScore(_pointVal);
         }
 
@@ -48,7 +48,7 @@ public class Enemy : MonoBehaviour
             _explosion.Play();
             _mesh.enabled = false;
             _collider.enabled = false;
-            Destroy(gameObject, 1.5f);
+            Destroy(gameObject, 3f);
         }
 
         if (collision.gameObject.CompareTag("Player"))
@@ -57,7 +57,7 @@ public class Enemy : MonoBehaviour
             _explosion.Play();
             _mesh.enabled = false;
             _collider.enabled = false;
-            Destroy(gameObject, 1.5f);
+            Destroy(gameObject, 3f);
         }
     }
 }
