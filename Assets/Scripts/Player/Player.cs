@@ -18,6 +18,8 @@ public class Player : MonoBehaviour
     [Header("Player Health")]
     [SerializeField] private int _startingHealth = 1;
     [SerializeField] private int _lives = 3;
+    [SerializeField] private float _invincibilityTimer = 3f;
+    private bool _isInvincible = false;
     public bool shieldsActive = false;
     [SerializeField] private ParticleSystem _explosionEffect;
     [SerializeField] private ParticleSystem _leftDamage;
@@ -33,6 +35,8 @@ public class Player : MonoBehaviour
     private ParticleSystem _speedBoostStream;
     private TrailRenderer _thruster;
     private SpriteRenderer _shields;
+    private Collider _collider;
+    private MeshRenderer _renderer;
 
     private GameOverAnimation _gameOver;
     private Shooting _shooting;
@@ -81,6 +85,12 @@ public class Player : MonoBehaviour
 
         _shooting = FindObjectOfType<Shooting>();
         if (_shooting == null) Debug.LogError("_shooting is NULL");
+
+        _collider = GetComponent<Collider>();
+        if (_collider == null) Debug.LogError("_collider is NULL");
+
+        _renderer = GetComponent<MeshRenderer>();
+        if (_renderer == null) Debug.LogError("_renderer is NULL");
 
         transform.position = new Vector3(0, 0, 0);
         _startingMoveForce = _moveForce;
@@ -169,23 +179,20 @@ public class Player : MonoBehaviour
 
     }
 
-    private void OnCollisionEnter(Collision collision)
+    public void Damage(int damage)
     {
-        if (shieldsActive)
+        if (_isInvincible) return;
+        else if (shieldsActive)
         {
             shieldsActive = false;
             _shields.enabled = false;
         }
         else
-        { 
+        {
+            _health -= damage;
             _explosionEffect.Play();
-        }
-            }
-
-    public void Damage(int damage)
-    {
-        if (shieldsActive) return;
-        else _health -= damage;
+            StartCoroutine(InvincibilityRoutine());
+        } 
 
         if (_health <= 0)
         {
@@ -199,6 +206,15 @@ public class Player : MonoBehaviour
         if (_lives == 1) _rightDamage.Play();
         if (_lives == 0) GameOver();
 
+    }
+
+    IEnumerator InvincibilityRoutine()
+    {
+        _isInvincible = true;
+        _collider.enabled = false;
+        yield return new WaitForSeconds(_invincibilityTimer);
+        _isInvincible = false;
+        _collider.enabled = true;
     }
 
     public void GameOver()
