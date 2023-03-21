@@ -20083,7 +20083,7 @@ GameObject:
   - component: {fileID: 643240355}
   - component: {fileID: 643240354}
   - component: {fileID: 643240360}
-  - component: {fileID: 643240353}
+  - component: {fileID: 643240361}
   - component: {fileID: 643240358}
   - component: {fileID: 643240357}
   - component: {fileID: 643240359}
@@ -20094,19 +20094,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!65 &643240353
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 643240352}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &643240354
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -20166,7 +20153,7 @@ Transform:
   m_GameObject: {fileID: 643240352}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: -0}
-  m_LocalScale: {x: 0.14, y: 0.15999998, z: 0.17499998}
+  m_LocalScale: {x: 0.14, y: 0.14, z: 0.18}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2008675859}
@@ -20201,6 +20188,7 @@ MonoBehaviour:
   _yBounds: 5
   _startingHealth: 1
   _lives: 3
+  _invincibilityTimer: 1
   shieldsActive: 0
   _explosionEffect: {fileID: 603472625618187038}
   _leftDamage: {fileID: 1784501173}
@@ -20264,6 +20252,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!136 &643240361
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 643240352}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 4.3484445
+  m_Height: 9.964328
+  m_Direction: 2
+  m_Center: {x: -0.03066063, y: 4.3778313e-15, z: -0.6759822}
 --- !u!1 &648519466
 GameObject:
   m_ObjectHideFlags: 0
