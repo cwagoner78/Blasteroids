@@ -15,12 +15,16 @@ public class Enemy : MonoBehaviour
     [SerializeField] private int _damage = 1;
     [SerializeField] private int _pointVal = 10;
     private UIManager _uiManager;
+    private AudioManager _audioManager; 
 
 
     private void Start()
     {
         _uiManager = FindObjectOfType<UIManager>();
         if (_uiManager == null) Debug.LogError("_uiManager is NULL");
+
+        _audioManager = FindObjectOfType<AudioManager>();
+        if (_audioManager == null) Debug.LogError("_audioManager is NULL");
 
         _speed = Random.Range(_speed / 1.25f, _speed * 1.25f);
     }
@@ -33,8 +37,11 @@ public class Enemy : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+
+
         if (collision.gameObject.CompareTag("Projectile"))
         {
+            _audioManager.PlayExplosion();
             Destroy(collision.gameObject);
             _explosion.Play();
             _mesh.enabled = false;
@@ -53,6 +60,7 @@ public class Enemy : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Player"))
         {
+            _audioManager.PlayExplosion();
             collision.transform.GetComponent<Player>().Damage(_damage);
             _explosion.Play();
             _mesh.enabled = false;

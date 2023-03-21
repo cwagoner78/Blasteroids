@@ -13,6 +13,8 @@ public class PowerUp : MonoBehaviour
     private Collider[] _colliders;
     private Player _player;
     private Shooting _shooting;
+    private AudioSource _audioSource;
+    private AudioSource _collectSound;
 
     [Header("Point Value")]
     [SerializeField] private int _pointVal = 50;
@@ -22,8 +24,21 @@ public class PowerUp : MonoBehaviour
     void Start()
     {
         _player = FindObjectOfType<Player>();
+        if (_player == null) Debug.LogError("_player is NULL");
+
         _shooting = GameObject.Find("Player").GetComponent<Shooting>();
+        if (_shooting == null) Debug.LogError("_shooting is NULL");
+
         _uiManager = FindObjectOfType<UIManager>();
+        if (_uiManager == null) Debug.LogError("_uiManager is NULL");
+
+        _audioSource = GetComponent<AudioSource>();
+        if (_audioSource == null) Debug.LogError("_audioSource is NULL");
+
+        _collectSound = GameObject.Find("CollectPowerUpSound").GetComponent<AudioSource>();
+        if (_collectSound == null) Debug.LogError("_collectSound is NULL");
+
+        StartCoroutine(SoundFadeIn());
     }
 
     // Update is called once per frame
@@ -37,6 +52,8 @@ public class PowerUp : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            _audioSource.Stop();
+            _collectSound.Play();
             switch (_powerUpID)
             {
                 case 0: _player.SpeedPowerUp(); break;
@@ -58,6 +75,15 @@ public class PowerUp : MonoBehaviour
             _trailParticles.Stop();
             GetComponentInChildren<Light>().enabled = false;
             Destroy(gameObject, 3);
+        }
+    }
+
+    IEnumerator SoundFadeIn()
+    {
+        while (_audioSource.volume < 1)
+        {
+            _audioSource.volume += 0.01f;
+            yield return new WaitForSeconds(0.01f);
         }
     }
 

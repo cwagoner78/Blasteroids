@@ -8,14 +8,20 @@ public class Laser : MonoBehaviour
     private Rigidbody _rb;
     private Transform _firePoint;
     [SerializeField] private float _speed = 20f;
+    private Player _player;
 
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
         if (_rb == null) Debug.LogError("_rb is NULL");
 
+        _player = FindObjectOfType<Player>();
+        if (_player == null) Debug.LogError("_player is NULL");
+
         _firePoint = GameObject.Find("FirePoint").transform;
         _rb.AddForce(_firePoint.forward * _speed, ForceMode.Impulse);
+
+        Physics.IgnoreCollision(_player.GetComponent<Collider>(), GetComponent<Collider>());
     }
 
     private void Update()
@@ -24,7 +30,9 @@ public class Laser : MonoBehaviour
         {
             if (transform.parent != null) Destroy(transform.parent.gameObject);
             Destroy(gameObject);
-        } 
+        }
+
+
     }
 
 }
