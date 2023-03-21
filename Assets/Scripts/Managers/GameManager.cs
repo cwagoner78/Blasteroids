@@ -6,6 +6,14 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private bool _isGameOver;
+    private AudioSource _source;
+
+    public bool musicPlaying;
+
+    private void Start()
+    {
+        _source = GetComponent<AudioSource>();  
+    }
 
     private void Update()
     {
@@ -23,6 +31,12 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         _isGameOver = true;
+    }
+
+    public void PlayMusic()
+    {
+        _source.Play();
+        musicPlaying= true;
     }
 
 }
