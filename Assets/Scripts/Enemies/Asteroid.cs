@@ -24,7 +24,9 @@ public class Asteroid : MonoBehaviour
     private SpawnManager _asteroidSpawner;
     private SpawnManager _enemySpawner;
     private SpawnManager _powerUpSpawner;
-    private GameManager _gameManager;
+    private AudioManager _audioManager;
+
+
 
     void Start()
     {
@@ -46,8 +48,8 @@ public class Asteroid : MonoBehaviour
         _player = FindObjectOfType<Player>();
         //if (_player == null) Debug.LogError("_player is NULL");
 
-        _gameManager = FindObjectOfType<GameManager>();
-        if (_gameManager == null) Debug.LogError("_gameManager is NULL");
+        _audioManager = FindObjectOfType<AudioManager>();
+        if (_audioManager == null) Debug.LogError("_audioManager is NULL");
 
         _rb.AddForce(Vector3.down * Random.Range(_movementSpeed, _movementSpeed * 2), ForceMode.Impulse);
         _rotation = new Vector3(Random.Range(-_rotSpeed, _rotSpeed), Random.Range(-_rotSpeed, _rotSpeed), Random.Range(-_rotSpeed, _rotSpeed));
@@ -65,7 +67,8 @@ public class Asteroid : MonoBehaviour
             _asteroidSpawner.StartSpawning();
             _enemySpawner.StartSpawning();
             _powerUpSpawner.StartSpawning();
-            if (!_gameManager.musicPlaying)_gameManager.PlayMusic();
+            _audioManager.StartGameMusic();
+
         } 
 
         if (collision.gameObject.CompareTag("Projectile"))

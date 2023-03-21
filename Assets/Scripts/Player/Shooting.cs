@@ -13,6 +13,8 @@ public class Shooting : MonoBehaviour
     [SerializeField] private GameObject _RightWingFlash;
     [SerializeField] private GameObject _laserContainer;
     [SerializeField] private GameObject _tripleShotContainer;
+    private AudioSource _laserSound;
+    private AudioSource _tripleShotSound;
 
     [Header("Cool Downs")]    
     [SerializeField] private float _bulletWaitTime = 0.25f;
@@ -21,20 +23,30 @@ public class Shooting : MonoBehaviour
     [SerializeField] private bool _canShoot = true;
     public bool hasTripleShot = false;
 
+    private void Start()
+    {
+        _laserSound = GameObject.Find("LaserSound").GetComponent<AudioSource>();
+        _tripleShotSound = GameObject.Find("TripleShotSound").GetComponent<AudioSource>();
+    }
+
     void Update()
     {
         if (_canShoot && Input.GetButton("Fire1")) Shoot();
     }
 
+
+
     public void Shoot()
     {
         if (!hasTripleShot)
         {
+            _laserSound.Play();
             _muzzleFlash.GetComponent<ParticleSystem>().Play();
             Instantiate(_laserPrefab, _firePoint.position, Quaternion.identity);
         }
         else 
         {
+            _tripleShotSound.Play();
             _muzzleFlash.GetComponent<ParticleSystem>().Play();
             _LeftWingFlash.GetComponent<ParticleSystem>().Play();
             _RightWingFlash.GetComponent<ParticleSystem>().Play();
