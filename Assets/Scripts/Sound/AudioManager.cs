@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
+    [Header("Music")]
     [SerializeField] private AudioSource _titleMusic;
     [SerializeField] private AudioSource _gameMusic;
 
-    private bool _gameMusicPLaying = false;
 
+    [Header("Explosions")]
+    [SerializeField] private AudioSource _explosionSource;
+    [SerializeField] private AudioClip[] _explosionClips;
+
+    private bool _gameMusicPLaying = false;
 
     // Update is called once per frame
     void Update()
@@ -38,5 +43,13 @@ public class AudioManager : MonoBehaviour
             _titleMusic.volume -= 0.001f;
             yield return new WaitForSeconds(0.01f);
         }
+    }
+
+    public void PlayExplosion()
+    {
+        int clip = Random.Range(0, _explosionClips.Length);
+        _explosionSource.pitch = Random.Range(0.9f, 1.1f);
+        _explosionSource.PlayOneShot(_explosionClips[clip]);
+
     }
 }

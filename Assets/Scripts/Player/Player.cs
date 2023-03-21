@@ -186,6 +186,7 @@ public class Player : MonoBehaviour
         {
             shieldsActive = false;
             _shields.enabled = false;
+            StartCoroutine(InvincibilityRoutine());
         }
         else
         {

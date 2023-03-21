@@ -68,15 +68,18 @@ public class Asteroid : MonoBehaviour
             _enemySpawner.StartSpawning();
             _powerUpSpawner.StartSpawning();
             _audioManager.StartGameMusic();
+            _audioManager.PlayExplosion();
 
         } 
 
         if (collision.gameObject.CompareTag("Projectile"))
         {
+
             Destroy(collision.gameObject);
 
             if (transform.localScale.x > .25f)
             {
+                _audioManager.PlayExplosion();
                 _explosion.Play();
                 transform.localScale = transform.localScale / 2;
                 _rb.mass = _rb.mass / 1.5f;
@@ -86,6 +89,7 @@ public class Asteroid : MonoBehaviour
             }
             else
             {
+                _audioManager.PlayExplosion();
                 _explosion.Play();
                 _mesh.enabled = false;
                 _collider.enabled = false;
@@ -99,6 +103,7 @@ public class Asteroid : MonoBehaviour
             if (_spawnContainer == null) return;
             if (transform.localScale.x > .25f)
             {
+                _audioManager.PlayExplosion();
                 _explosion.Play();
                 transform.localScale = transform.localScale / 2;
                 _rb.mass = _rb.mass / 1.5f;
@@ -107,6 +112,7 @@ public class Asteroid : MonoBehaviour
             }
             else
             {
+                _audioManager.PlayExplosion();
                 _explosion.Play();
                 _mesh.enabled = false;
                 _collider.enabled = false;
@@ -120,6 +126,7 @@ public class Asteroid : MonoBehaviour
 
             if (transform.localScale.x > .25f)
             {
+                _audioManager.PlayExplosion();
                 _explosion.Play();
                 transform.localScale = transform.localScale / 2;
                 _rb.mass = _rb.mass / 1.5f;
@@ -128,6 +135,7 @@ public class Asteroid : MonoBehaviour
             }
             else
             {
+                _audioManager.PlayExplosion();
                 _explosion.Play();
                 _mesh.enabled = false;
                 _collider.enabled = false;
