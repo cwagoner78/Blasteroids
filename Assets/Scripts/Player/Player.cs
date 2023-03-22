@@ -37,6 +37,7 @@ public class Player : MonoBehaviour
     private SpriteRenderer _shields;
     private Collider _collider;
     private MeshRenderer _renderer;
+    private AudioSource _source;
 
     private GameOverAnimation _gameOver;
     private Shooting _shooting;
@@ -91,6 +92,9 @@ public class Player : MonoBehaviour
 
         _renderer = GetComponent<MeshRenderer>();
         if (_renderer == null) Debug.LogError("_renderer is NULL");
+
+        _source = GetComponent<AudioSource>();
+        if (_source == null) Debug.LogError("_source is NULL");
 
         transform.position = new Vector3(0, 0, 0);
         _startingMoveForce = _moveForce;
@@ -174,6 +178,7 @@ public class Player : MonoBehaviour
 
     public void ShieldPowerUp()
     {
+        _source.volume = .5f;
         shieldsActive = true;
         _shields.enabled = true;
 
@@ -184,6 +189,7 @@ public class Player : MonoBehaviour
         if (_isInvincible) return;
         else if (shieldsActive)
         {
+            _source.volume = 0;
             shieldsActive = false;
             _shields.enabled = false;
             StartCoroutine(InvincibilityRoutine());
