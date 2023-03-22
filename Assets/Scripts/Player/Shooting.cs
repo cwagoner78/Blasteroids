@@ -15,6 +15,7 @@ public class Shooting : MonoBehaviour
     [SerializeField] private GameObject _tripleShotContainer;
     private AudioSource _laserSound;
     private AudioSource _tripleShotSound;
+    private GameManager _gameManager;
 
     [Header("Cool Downs")]    
     [SerializeField] private float _bulletWaitTime = 0.25f;
@@ -26,15 +27,19 @@ public class Shooting : MonoBehaviour
     private void Start()
     {
         _laserSound = GameObject.Find("LaserSound").GetComponent<AudioSource>();
+        if (_laserSound == null) Debug.LogError("_laserSound is Null");
+
         _tripleShotSound = GameObject.Find("TripleShotSound").GetComponent<AudioSource>();
+        if (_tripleShotSound == null) Debug.LogError("_tripleShotSound is Null");
+
+        _gameManager = FindObjectOfType<GameManager>();
+        if (_gameManager == null) Debug.LogError("_gameManager is Null");
     }
 
     void Update()
     {
-        if (_canShoot && Input.GetButton("Fire1")) Shoot();
+        if (!_gameManager.gamePaused && _canShoot && Input.GetButton("Fire1")) Shoot();
     }
-
-
 
     public void Shoot()
     {

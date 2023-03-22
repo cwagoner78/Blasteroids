@@ -25,6 +25,7 @@ public class Asteroid : MonoBehaviour
     private SpawnManager _enemySpawner;
     private SpawnManager _powerUpSpawner;
     private AudioManager _audioManager;
+    private GameManager _gameManager;
 
 
 
@@ -51,13 +52,16 @@ public class Asteroid : MonoBehaviour
         _audioManager = FindObjectOfType<AudioManager>();
         if (_audioManager == null) Debug.LogError("_audioManager is NULL");
 
+        _gameManager = FindObjectOfType<GameManager>();
+        if (_gameManager == null) Debug.LogError("_gameManager is NULL");
+
         _rb.AddForce(Vector3.down * Random.Range(_movementSpeed, _movementSpeed * 2), ForceMode.Impulse);
         _rotation = new Vector3(Random.Range(-_rotSpeed, _rotSpeed), Random.Range(-_rotSpeed, _rotSpeed), Random.Range(-_rotSpeed, _rotSpeed));
     }
 
     void Update()
     {
-        HandleMovement();
+        if (!_gameManager.gamePaused) HandleMovement();
     }
 
     private void OnCollisionEnter(Collision collision)

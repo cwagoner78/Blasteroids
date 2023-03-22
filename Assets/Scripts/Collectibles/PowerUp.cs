@@ -45,7 +45,7 @@ public class PowerUp : MonoBehaviour
     void Update()
     {
         transform.Translate(Vector3.down * Random.Range(_moveSpeed / 1.5f, _moveSpeed * 1.5f) * Time.deltaTime);
-        if (transform.position.y < -20f) Destroy(gameObject);
+        if (transform.position.y < -20f) Destroy(gameObject); 
     }
 
     private void OnTriggerEnter(Collider other)
@@ -85,6 +85,12 @@ public class PowerUp : MonoBehaviour
             _audioSource.volume += 0.01f;
             yield return new WaitForSeconds(0.01f);
         }
+    }
+
+    public void GamePaused(bool paused)
+    {
+        if (paused) _audioSource.Pause();
+        if (!paused) _audioSource.UnPause();
     }
 
 }
