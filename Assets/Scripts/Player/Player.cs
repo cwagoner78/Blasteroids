@@ -104,8 +104,11 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-        HandleMovement();
-        HandleAnimation();
+        if (!_gameManager.gamePaused)
+        {
+            HandleMovement();
+            HandleAnimation();
+        }
     }
 
     void HandleMovement()

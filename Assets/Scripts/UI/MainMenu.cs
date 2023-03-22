@@ -5,12 +5,17 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    [SerializeField] private AudioManager _audioManager;
+    private AudioManager _audioManager;
     [SerializeField] private Animator _fade;
 
     private void Start()
     {
+        _audioManager = FindObjectOfType<AudioManager>();
+        if (_audioManager == null) Debug.LogError("_audioManager is NULL");
+
         StartCoroutine(FadeIn());
+
+        _audioManager.StartTitleMusic();
     }
 
     IEnumerator FadeIn()
@@ -22,7 +27,7 @@ public class MainMenu : MonoBehaviour
     public void LoadGame()
     {
         StartCoroutine(LoadGameRoutine());
-        _audioManager.StartFadeOutMenuMusic() ;
+        _audioManager.StartFadeTitleMusicOut() ;
     }
 
     public void QuitGame()
