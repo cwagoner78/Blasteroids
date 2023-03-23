@@ -6,7 +6,6 @@ public class Laser : MonoBehaviour
 {
     public int damage = 1;
     private Rigidbody _rb;
-    private Transform _firePoint;
     [SerializeField] private float _speed = 20f;
     private Player _player;
 
@@ -16,23 +15,30 @@ public class Laser : MonoBehaviour
         if (_rb == null) Debug.LogError("_rb is NULL");
 
         _player = FindObjectOfType<Player>();
-        if (_player == null) Debug.LogError("_player is NULL");
+        //if (_player == null) Debug.LogError("_player is NULL");
+        
+        _rb.AddForce(Vector3.up * _speed, ForceMode.Impulse);
 
-        _firePoint = GameObject.Find("FirePoint").transform;
-        _rb.AddForce(_firePoint.forward * _speed, ForceMode.Impulse);
-
-        Physics.IgnoreCollision(_player.GetComponent<Collider>(), GetComponent<Collider>());
     }
 
     private void Update()
     {
-        if (transform.position.y > 25)
+        if (transform.position.y > 25 || transform.position.y < -25)
         {
             if (transform.parent != null) Destroy(transform.parent.gameObject);
             Destroy(gameObject);
         }
 
 
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            _player.Damage(damage);
+            Destroy(gameObject);
+        }
     }
 
 }

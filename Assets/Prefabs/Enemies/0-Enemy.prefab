@@ -133,6 +133,10 @@ MonoBehaviour:
   _collider: {fileID: 4739596651284066999}
   _explosion: {fileID: 2400479181384505640}
   _mesh: {fileID: 3210906730037036785}
+  _canShoot: 0
+  _enemyLaserPrefab: {fileID: 5700309473345992800, guid: 5d50c0efde29c234d815c64768d03db6, type: 3}
+  _enemyLaserDamageValue: 1
+  _fireRate: 4
   _damage: 1
   _pointVal: 10
 --- !u!1001 &5206664926395427926

@@ -7,7 +7,6 @@ public class Shooting : MonoBehaviour
     [Header("Object Assignments")]
     [SerializeField] private GameObject _laserPrefab;
     [SerializeField] private GameObject _tripleShotPrefab;
-    [SerializeField] private Transform _firePoint;
     [SerializeField] private GameObject _muzzleFlash;
     [SerializeField] private GameObject _LeftWingFlash;
     [SerializeField] private GameObject _RightWingFlash;
@@ -38,7 +37,7 @@ public class Shooting : MonoBehaviour
 
     void Update()
     {
-        if (!_gameManager.gamePaused && _canShoot && Input.GetButton("Fire1")) Shoot();
+        if (!_gameManager.gamePaused && _canShoot && Input.GetButtonDown("Fire1")) Shoot();
     }
 
     public void Shoot()
@@ -47,7 +46,8 @@ public class Shooting : MonoBehaviour
         {
             _laserSound.Play();
             _muzzleFlash.GetComponent<ParticleSystem>().Play();
-            Instantiate(_laserPrefab, _firePoint.position, Quaternion.identity);
+            Instantiate(_laserPrefab, transform.position + new Vector3(0,1.5f,0), Quaternion.identity);
+            
         }
         else 
         {
@@ -55,7 +55,7 @@ public class Shooting : MonoBehaviour
             _muzzleFlash.GetComponent<ParticleSystem>().Play();
             _LeftWingFlash.GetComponent<ParticleSystem>().Play();
             _RightWingFlash.GetComponent<ParticleSystem>().Play();
-            Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
+            Instantiate(_tripleShotPrefab, transform.position + new Vector3(0, 0.5f, 0), Quaternion.identity);
         }
         _canShoot = false;
         StartCoroutine(BulletWaitTimer());

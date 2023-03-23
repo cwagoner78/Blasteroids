@@ -22,8 +22,10 @@ public class Player : MonoBehaviour
     private bool _isInvincible = false;
     public bool shieldsActive = false;
     [SerializeField] private ParticleSystem _explosionEffect;
+    [SerializeField] private GameObject _explosionEffectPrefab;
     [SerializeField] private ParticleSystem _leftDamage;
     [SerializeField] private ParticleSystem _rightDamage;
+    [SerializeField] private GameObject _jets;
 
     private int _health = 1;
     private Rigidbody _rigidbody;
@@ -32,10 +34,11 @@ public class Player : MonoBehaviour
     private SpawnManager _spawnManagerAsteroid;
     private SpawnManager _spawnManagerEnemy;
     private SpawnManager _spawnManagerPowerUp;
+    private AudioManager _audioManager; 
     private ParticleSystem _speedBoostStream;
     private TrailRenderer _thruster;
     private SpriteRenderer _shields;
-    private Collider _collider;
+    private Collider[] _colliders;
     private MeshRenderer _renderer;
     private AudioSource _source;
 
@@ -44,6 +47,7 @@ public class Player : MonoBehaviour
     private float _startingMoveForce;
     private float _inputX;
     private float _inputY;
+    private bool _inputEnabled = true;
 
     //UI Update variables
     private UIManager _uiManager;
@@ -69,6 +73,9 @@ public class Player : MonoBehaviour
         _spawnManagerPowerUp = GameObject.Find("PowerUpSpawner").GetComponent<SpawnManager>();
         if (_spawnManagerPowerUp == null) Debug.LogError("_spawnManagerPowerUp is NULL");
 
+        _audioManager = FindObjectOfType<AudioManager>();
+        if (_audioManager == null) Debug.LogError("_audioManager is NULL");
+
         _gameOver = FindObjectOfType<GameOverAnimation>();
         if (_gameOver == null) Debug.LogError("_gameOver is NULL");
 
@@ -87,8 +94,8 @@ public class Player : MonoBehaviour
         _shooting = FindObjectOfType<Shooting>();
         if (_shooting == null) Debug.LogError("_shooting is NULL");
 
-        _collider = GetComponent<Collider>();
-        if (_collider == null) Debug.LogError("_collider is NULL");
+        _colliders = GetComponents<Collider>();
+        if (_colliders == null) Debug.LogError("_collider is NULL");
 
         _renderer = GetComponent<MeshRenderer>();
         if (_renderer == null) Debug.LogError("_renderer is NULL");
@@ -104,7 +111,7 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!_gameManager.gamePaused)
+        if (!_gameManager.gamePaused && _inputEnabled)
         {
             HandleMovement();
             HandleAnimation();
@@ -192,6 +199,8 @@ public class Player : MonoBehaviour
         if (_isInvincible) return;
         else if (shieldsActive)
         {
+            _explosionEffect.Play();
+            _audioManager.PlayExplosion();
             _source.volume = 0;
             shieldsActive = false;
             _shields.enabled = false;
@@ -201,11 +210,14 @@ public class Player : MonoBehaviour
         {
             _health -= damage;
             _explosionEffect.Play();
+            _audioManager.PlayExplosion();
             StartCoroutine(InvincibilityRoutine());
         } 
 
         if (_health <= 0)
         {
+            GameObject newInstance = Instantiate(_explosionEffectPrefab, transform.position, Quaternion.identity);
+            newInstance.GetComponent<ParticleSystem>().Play();
             _lives--;
             _uiManager.UpdateLives(_lives);
             _shooting.DisableTripleShot();
@@ -221,23 +233,22 @@ public class Player : MonoBehaviour
     IEnumerator InvincibilityRoutine()
     {
         _isInvincible = true;
-        _collider.enabled = false;
+        foreach (Collider col in _colliders) col.enabled = false;
         yield return new WaitForSeconds(_invincibilityTimer);
         _isInvincible = false;
-        _collider.enabled = true;
+        foreach (Collider col in _colliders) col.enabled = true;
     }
 
     public void GameOver()
     {
+        _inputEnabled = false;
         _gameOver.OnGameOver();
         _gameManager.GameOver();
         _spawnManagerAsteroid.OnGameOver();
         _spawnManagerEnemy.OnGameOver();
         _spawnManagerPowerUp.OnGameOver();
         _uiManager.OnGameOver();
+
         gameObject.SetActive(false);
-
     }
-
-
 }
