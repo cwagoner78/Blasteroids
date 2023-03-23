@@ -10009,7 +10009,6 @@ MonoBehaviour:
   _mesh: {fileID: 2892379186001100506}
   _canShoot: 1
   _enemyLaserPrefab: {fileID: 5700309473345992800, guid: 5d50c0efde29c234d815c64768d03db6, type: 3}
-  _enemyLaserDamageValue: 1
-  _fireRate: 1
+  _fireRate: 2
   _damage: 1
   _pointVal: 50
