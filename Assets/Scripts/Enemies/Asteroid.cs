@@ -73,6 +73,7 @@ public class Asteroid : MonoBehaviour
             _powerUpSpawner.StartSpawning();
             _audioManager.StartGameMusic();
             _audioManager.PlayExplosion();
+            _isWaveAsteroid = false;
 
         } 
 
@@ -152,8 +153,8 @@ public class Asteroid : MonoBehaviour
         transform.Rotate(_rotation);
 
         //Bounds
-        if (transform.position.x > 30 ||
-            transform.position.x < -30 ||
+        if (transform.position.x > 40 ||
+            transform.position.x < -40 ||
             transform.position.y > 30 ||
             transform.position.y < -30) Destroy(gameObject);
     }

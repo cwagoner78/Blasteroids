@@ -64,10 +64,10 @@ public class GameManager : MonoBehaviour
     }
 
 
-
     public void GameOver()
     {
         _isGameOver = true;
+        _audioManager.StartTitleMusic();
     }
 
     IEnumerator LoadSceneRoutine()
