@@ -3007,8 +3007,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 11dccf928014c6449acadee8768a2480, type: 3}
   - {fileID: 8300000, guid: b3286498676cafc4bbdd7968600c4e5f, type: 3}
   - {fileID: 8300000, guid: 15e8aeccece0e4c4cb90c62ca61bcc7c, type: 3}
-  _laserSource: {fileID: 732668346356184788}
-  _tripleShotSource: {fileID: 732668345742818404}
   _pause: {fileID: 1486540252}
   _unPause: {fileID: 1568723163}
 --- !u!4 &732668347762081465
