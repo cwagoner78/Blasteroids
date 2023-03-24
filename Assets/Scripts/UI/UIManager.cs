@@ -8,7 +8,7 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField] private TMP_Text _scoreText;
     [SerializeField] private TMP_Text _restartText;
-    private byte alpha;
+    private byte _alpha;
 
     [SerializeField] private int _score;
     [SerializeField] private Sprite[] _livesSprites;
@@ -33,11 +33,11 @@ public class UIManager : MonoBehaviour
     IEnumerator EnableRestartText()
     {
         yield return new WaitForSeconds(1f);
-        while (alpha < 255)
+        while (_alpha < 255)
         {
-            alpha++;
+            _alpha++;
             yield return new WaitForSeconds(0.01f);
-            _restartText.color = new Color32(255, 0, 0, alpha);
+            _restartText.color = new Color32(255, 0, 0, _alpha);
         }
         
     }

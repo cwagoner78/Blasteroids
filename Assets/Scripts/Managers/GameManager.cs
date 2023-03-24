@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
 
     void ManageScene()
     {
-        if (Input.GetKeyDown(KeyCode.R) && _isGameOver) StartCoroutine(LoadSceneRoutine());
+        if (Input.GetKeyDown(KeyCode.R) && _isGameOver) StartCoroutine(LoadGameRoutine());
         if (Input.GetKeyDown(KeyCode.Q) && _isGameOver) StartCoroutine(LoadMenuRoutine());
         if (currentScene.name == "Title" && Input.GetKeyDown(KeyCode.Escape)) QuitGame();
         if (currentScene.name == "Game" && Input.GetKeyDown(KeyCode.Escape)) SetPauseGame();
@@ -70,7 +70,7 @@ public class GameManager : MonoBehaviour
         _audioManager.StartTitleMusic();
     }
 
-    IEnumerator LoadSceneRoutine()
+    IEnumerator LoadGameRoutine()
     {
         _fade.SetBool("FadeOut", true);
         yield return new WaitForSeconds(1);
