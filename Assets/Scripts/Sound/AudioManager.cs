@@ -8,8 +8,8 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioSource _titleMusic;
     [SerializeField] private AudioSource _gameMusic;
     [SerializeField] private float _fadeTimerInterval = 0.001f;
-    private bool titleMusicPlaying = false;
-    private bool gameMusicPlaying = false;
+    private bool _titleMusicPlaying = false;
+    private bool _gameMusicPlaying = false;
 
     [Header("Explosions")]
     [SerializeField] private AudioSource _explosionSource;
@@ -19,37 +19,37 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioSource _pause;
     [SerializeField] private AudioSource _unPause;
 
-    public static AudioManager instance;
+    public static AudioManager Instance;
 
     void Awake()
     {
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
+        
         DontDestroyOnLoad(gameObject);
-
-        //if (instance == null) instance = this;
-        //else Destroy(gameObject);
     }
 
     public void StartTitleMusic()
     {
-        if (!titleMusicPlaying)
+        if (!_titleMusicPlaying)
         {
             _titleMusic.Play();
             _gameMusic.Stop();
             _titleMusic.volume = 0.5f;
-            gameMusicPlaying = false;
-            titleMusicPlaying = true;
+            _gameMusicPlaying = false;
+            _titleMusicPlaying = true;
         }
     }
 
     public void StartGameMusic()
     {
-        if (!gameMusicPlaying)
+        if (!_gameMusicPlaying)
         {
             _gameMusic.Play();
             _titleMusic.Stop();
             _gameMusic.volume = 0.5f;
-            titleMusicPlaying = false;
-            gameMusicPlaying = true;
+            _titleMusicPlaying = false;
+            _gameMusicPlaying = true;
         }
     }
 
