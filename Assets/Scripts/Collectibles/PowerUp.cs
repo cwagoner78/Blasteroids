@@ -56,7 +56,7 @@ public class PowerUp : MonoBehaviour
             _collectSound.Play();
             switch (_powerUpID)
             {
-                case 0: _player.SpeedPowerUp(); break;
+                case 0: _player.SpeedBoostGained(); break;
                 case 1: _shooting.TripleShotActive(); break;
                 case 2: _player.ShieldPowerUp(); break;
                 default: Debug.Log("Default Value"); break;

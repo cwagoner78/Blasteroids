@@ -10,6 +10,7 @@ Material:
   m_Name: airstrike3d SDF Material
   m_Shader: {fileID: 4800000, guid: 68e6db2ebdc24f95958faec2be5558d6, type: 3}
   m_ValidKeywords:
+  - BEVEL_ON
   - GLOW_ON
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -44,11 +45,11 @@ Material:
     m_Ints: []
     m_Floats:
     - _Ambient: 0.5
-    - _Bevel: 0.5
+    - _Bevel: 0.534
     - _BevelClamp: 0
-    - _BevelOffset: 0
-    - _BevelRoundness: 0
-    - _BevelWidth: 0
+    - _BevelOffset: -0.034
+    - _BevelRoundness: 0.402
+    - _BevelWidth: 0.103
     - _BumpFace: 0
     - _BumpOutline: 0
     - _ColorMask: 15
@@ -58,8 +59,8 @@ Material:
     - _FaceUVSpeedX: 0
     - _FaceUVSpeedY: 0
     - _GlowInner: 0
-    - _GlowOffset: 0
-    - _GlowOuter: 0
+    - _GlowOffset: -0.18
+    - _GlowOuter: 0.25
     - _GlowPower: 0.5
     - _GradientScale: 6
     - _LightAngle: 3.1416

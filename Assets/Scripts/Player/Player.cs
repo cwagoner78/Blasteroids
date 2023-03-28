@@ -2,14 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
     [Header("Player Controls")]
     [SerializeField] private float _moveForce = 5;
-    [SerializeField] private float _speedBoostMultiplier = 1.5f;
-    [SerializeField] private float _speedBoostCoolDown = 5f;
     [SerializeField] private bool _speedBoostActive = false;
+    [SerializeField] private float _speedBoostMultiplier = 1.5f;
+    [SerializeField] private Slider _boostSlider;
+    [SerializeField] private int _maxBoost = 500;
+    [SerializeField] private int _boostDecrement = 1;
+    private int _currentBoost;
 
     [Header("Boundaries")]
     [SerializeField] private float _xBounds = 12f;
@@ -19,17 +23,21 @@ public class Player : MonoBehaviour
     [SerializeField] private int _startingHealth = 1;
     [SerializeField] private int _lives = 3;
     [SerializeField] private float _invincibilityTimer = 3f;
+    [SerializeField] public bool shieldsActive = false;
+    [SerializeField] private int _shieldHealth;
     private bool _isInvincible = false;
-    public bool shieldsActive = false;
+    private int _health = 1;
+
+    [Header("Effects")]
     [SerializeField] private ParticleSystem _explosionEffect;
     [SerializeField] private GameObject _explosionEffectPrefab;
     [SerializeField] private ParticleSystem _leftDamage;
     [SerializeField] private ParticleSystem _rightDamage;
     [SerializeField] private GameObject _jets;
 
-    private int _health = 1;
     private Rigidbody _rigidbody;
     private Animator _anim;
+    private UIManager _uiManager;
     private GameManager _gameManager;
     private SpawnManager _spawnManagerAsteroid;
     private SpawnManager _spawnManagerEnemy;
@@ -41,17 +49,12 @@ public class Player : MonoBehaviour
     private Collider[] _colliders;
     private MeshRenderer _renderer;
     private AudioSource _source;
-
     private GameOverAnimation _gameOver;
     private Shooting _shooting;
     private float _startingMoveForce;
     private float _inputX;
     private float _inputY;
     private bool _inputEnabled = true;
-
-    //UI Update variables
-    private UIManager _uiManager;
-
 
     void Start()
     {
@@ -107,12 +110,17 @@ public class Player : MonoBehaviour
         _startingMoveForce = _moveForce;
         _uiManager.UpdateLives(_lives);
 
+        _boostSlider.maxValue = _maxBoost;
+        _currentBoost = _maxBoost;
+        _boostSlider.value = _currentBoost;
+
     }
 
     void FixedUpdate()
     {
         if (!_gameManager.gamePaused && _inputEnabled)
         {
+            CheckForSpeedBoost();
             HandleMovement();
             HandleAnimation();
         }
@@ -130,12 +138,18 @@ public class Player : MonoBehaviour
             _moveForce *= _speedBoostMultiplier;
             _speedBoostStream.Play();
             _thruster.enabled = true;
-            StartCoroutine(SpeedUpTimer(_speedBoostCoolDown));
-        } 
+
+        }
+        else if (!_speedBoostActive)
+        {
+            _moveForce = _startingMoveForce;
+            _speedBoostStream.Stop();
+            _thruster.enabled = false;
+        }
+
         _rigidbody.AddForce(movement * _moveForce);
 
         //Shield Movement
-        if (shieldsActive) ShieldPowerUp();
         _shields.transform.position = transform.position - new Vector3(0,0,1);
 
         //Bounds
@@ -144,7 +158,6 @@ public class Player : MonoBehaviour
         if (position.y <= -_yBounds * 1.5f) _rigidbody.AddForce(movement.x, movement.y + _yBounds * (_moveForce / 4), movement.z);
         if (position.x >= _xBounds * 1.5f) _rigidbody.AddForce(movement.x - _xBounds * (_moveForce / 4), movement.y, movement.z);
         if (position.x <= -_xBounds * 1.5f) _rigidbody.AddForce(movement.x + _xBounds * (_moveForce / 4), movement.y, movement.z);
-
     }
 
     void HandleAnimation()
@@ -154,44 +167,55 @@ public class Player : MonoBehaviour
             _anim.SetBool("MovingLeft", true);
             _anim.SetBool("MovingRight", false);
             _anim.SetBool("Idle", false);
-
         }
         else if (_inputX > 0.2f)
         {
             _anim.SetBool("MovingLeft", false);
             _anim.SetBool("MovingRight", true);
             _anim.SetBool("Idle", false);
-
         }
         else if (_inputX > -0.2f && _inputX < 0.2f)
         {
             _anim.SetBool("MovingLeft", false);
             _anim.SetBool("MovingRight", false);
             _anim.SetBool("Idle", true);
-
         }
     }
 
-    public void SpeedPowerUp()
+    public void SpeedBoostGained()
     {
-        _speedBoostActive = true;
+        _currentBoost = _maxBoost;
     }
 
-    IEnumerator SpeedUpTimer(float timer)
+    void CheckForSpeedBoost()
     {
-        yield return new WaitForSeconds(timer);
-        _moveForce = _startingMoveForce;
-        _speedBoostStream.Stop();
-        _thruster.enabled = false;
-        _speedBoostActive = false;
+        if (Input.GetKey(KeyCode.LeftShift) && _currentBoost > 0)
+        {
+            _speedBoostActive = true;
+            StartCoroutine(DecreaseBoost());
+        } 
+        else _speedBoostActive = false;
+
+        _boostSlider.value = _currentBoost;
+    }
+
+    IEnumerator DecreaseBoost()
+    {
+        while (_speedBoostActive && _currentBoost > 0)
+        {
+            _currentBoost -= _boostDecrement;
+            yield return new WaitForSeconds(0.1f);
+        }
     }
 
     public void ShieldPowerUp()
     {
         _source.volume = .5f;
+        _source.Play();
         shieldsActive = true;
         _shields.enabled = true;
-
+        _shields.color = new Color32(0, 255, 255, 65);
+        _shieldHealth = 3;
     }
 
     public void Damage(int damage)
@@ -199,11 +223,15 @@ public class Player : MonoBehaviour
         if (_isInvincible) return;
         else if (shieldsActive)
         {
+            _shieldHealth -= 1;
             _explosionEffect.Play();
             _audioManager.PlayExplosion();
-            _source.volume = 0;
-            shieldsActive = false;
-            _shields.enabled = false;
+            if (_shieldHealth <= 0)
+            {
+                shieldsActive = false;
+                _shields.enabled = false;
+                _source.Stop();
+            }
             StartCoroutine(InvincibilityRoutine());
         }
         else
@@ -223,6 +251,9 @@ public class Player : MonoBehaviour
             _shooting.DisableTripleShot();
             _health = _startingHealth;
         }
+
+        if (_shieldHealth == 2) _shields.color = new Color32(255, 255, 0, 65);
+        if (_shieldHealth == 1) _shields.color = new Color32(255, 0, 0, 65);
 
         if (_lives == 2) _leftDamage.Play();
         if (_lives == 1) _rightDamage.Play();
