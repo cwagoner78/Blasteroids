@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PowerUp : MonoBehaviour
 {
-    [SerializeField] private int _powerUpID; // '0' = SpeedBoost, '1' = TripleShot, '2' Shields
+    [SerializeField] private int _powerUpID; // '0' = SpeedBoost, '1' = TripleShot, '2' Shields, '3' Health
     [SerializeField] private float _moveSpeed = 3f;
     [SerializeField] private ParticleSystem _trailParticles;
     [SerializeField] private ParticleSystem _collectParticles;
@@ -59,6 +59,7 @@ public class PowerUp : MonoBehaviour
                 case 0: _player.SpeedBoostGained(); break;
                 case 1: _shooting.TripleShotActive(); break;
                 case 2: _player.ShieldPowerUp(); break;
+                case 3: _player.HealthGained(); break;
                 default: Debug.Log("Default Value"); break;
             }
 
@@ -70,7 +71,8 @@ public class PowerUp : MonoBehaviour
             }
 
             _uiManager.AddScore(_pointVal);
-            transform.GetComponent<SpriteRenderer>().enabled = false;
+            if (transform.GetComponent<SpriteRenderer>() != null) transform.GetComponent<SpriteRenderer>().enabled = false;
+            if (transform.GetComponentInChildren<MeshRenderer>() != null) transform.GetComponentInChildren<MeshRenderer>().enabled = false;
             _collectParticles.Play();
             _trailParticles.Stop();
             GetComponentInChildren<Light>().enabled = false;

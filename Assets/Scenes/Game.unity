@@ -20420,6 +20420,7 @@ MonoBehaviour:
   - {fileID: 3129271782196582723, guid: 9943d99728670f549aceda4771b4ac78, type: 3}
   - {fileID: 8594188430703826697, guid: d8cc547fa2eb3d84ba9a1ae9f7328d82, type: 3}
   - {fileID: 1028080269549880315, guid: 3d1ec1b3a9c7d054dbdc28eb0f8b1bca, type: 3}
+  - {fileID: 311799010298836590, guid: 590eb3440a540a14ba006088f1a4b119, type: 3}
   _spawnContainer: {fileID: 1525897823}
 --- !u!4 &620856943
 Transform:
@@ -20712,15 +20713,15 @@ MonoBehaviour:
   _speedBoostActive: 0
   _speedBoostMultiplier: 2
   _boostSlider: {fileID: 897257632}
-  _maxBoost: 500
+  maxBoost: 500
   _boostDecrement: 1
+  currentBoost: 0
   _xBounds: 12
   _yBounds: 5
   _startingHealth: 1
-  _lives: 3
+  lives: 2
   _invincibilityTimer: 1
   shieldsActive: 0
-  _shieldHealth: 0
   _explosionEffect: {fileID: 603472625618187038}
   _explosionEffectPrefab: {fileID: 9198861215556211074, guid: fdddc63a1d5dd0e4995cd21e7e569c6a, type: 3}
   _leftDamage: {fileID: 1784501173}
