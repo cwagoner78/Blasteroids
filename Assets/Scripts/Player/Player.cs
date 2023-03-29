@@ -6,14 +6,15 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    [Header("Player Controls")]
+    [Header("Movement")]
     [SerializeField] private float _moveForce = 5;
     [SerializeField] private bool _speedBoostActive = false;
     [SerializeField] private float _speedBoostMultiplier = 1.5f;
     [SerializeField] private Slider _boostSlider;
-    [SerializeField] private int _maxBoost = 500;
+    public int maxBoost = 500;
     [SerializeField] private int _boostDecrement = 1;
-    private int _currentBoost;
+    [HideInInspector]
+    public int currentBoost;
 
     [Header("Boundaries")]
     [SerializeField] private float _xBounds = 12f;
@@ -21,10 +22,10 @@ public class Player : MonoBehaviour
 
     [Header("Player Health")]
     [SerializeField] private int _startingHealth = 1;
-    [SerializeField] private int _lives = 3;
+    public int lives = 3;
     [SerializeField] private float _invincibilityTimer = 3f;
-    [SerializeField] public bool shieldsActive = false;
-    [SerializeField] private int _shieldHealth;
+    public bool shieldsActive = false;
+    private int _shieldHealth;
     private bool _isInvincible = false;
     private int _health = 1;
 
@@ -108,11 +109,11 @@ public class Player : MonoBehaviour
 
         transform.position = new Vector3(0, 0, 0);
         _startingMoveForce = _moveForce;
-        _uiManager.UpdateLives(_lives);
+        _uiManager.UpdateLives(lives);
 
-        _boostSlider.maxValue = _maxBoost;
-        _currentBoost = _maxBoost;
-        _boostSlider.value = _currentBoost;
+        _boostSlider.maxValue = maxBoost;
+        currentBoost = maxBoost;
+        _boostSlider.value = currentBoost;
 
     }
 
@@ -182,28 +183,29 @@ public class Player : MonoBehaviour
         }
     }
 
+
     public void SpeedBoostGained()
     {
-        _currentBoost = _maxBoost;
+        currentBoost = maxBoost;
     }
 
     void CheckForSpeedBoost()
     {
-        if (Input.GetKey(KeyCode.LeftShift) && _currentBoost > 0)
+        if (Input.GetKey(KeyCode.LeftShift) && currentBoost > 0)
         {
             _speedBoostActive = true;
             StartCoroutine(DecreaseBoost());
         } 
         else _speedBoostActive = false;
 
-        _boostSlider.value = _currentBoost;
+        _boostSlider.value = currentBoost;
     }
 
     IEnumerator DecreaseBoost()
     {
-        while (_speedBoostActive && _currentBoost > 0)
+        while (_speedBoostActive && currentBoost > 0)
         {
-            _currentBoost -= _boostDecrement;
+            currentBoost -= _boostDecrement;
             yield return new WaitForSeconds(0.1f);
         }
     }
@@ -246,8 +248,8 @@ public class Player : MonoBehaviour
         {
             GameObject newInstance = Instantiate(_explosionEffectPrefab, transform.position, Quaternion.identity);
             newInstance.GetComponent<ParticleSystem>().Play();
-            _lives--;
-            _uiManager.UpdateLives(_lives);
+            lives--;
+            _uiManager.UpdateLives(lives);
             _shooting.DisableTripleShot();
             _health = _startingHealth;
         }
@@ -255,10 +257,18 @@ public class Player : MonoBehaviour
         if (_shieldHealth == 2) _shields.color = new Color32(255, 255, 0, 65);
         if (_shieldHealth == 1) _shields.color = new Color32(255, 0, 0, 65);
 
-        if (_lives == 2) _leftDamage.Play();
-        if (_lives == 1) _rightDamage.Play();
-        if (_lives == 0) GameOver();
+        if (lives == 2) _leftDamage.Play();
+        if (lives == 1) _rightDamage.Play();
+        if (lives == 0) GameOver();
 
+    }
+
+    public void HealthGained()
+    {
+        if (lives < 3) lives++;
+        _uiManager.UpdateLives(lives);
+        if (lives == 2) _rightDamage.Stop();
+        if (lives == 3) _leftDamage.Stop();
     }
 
     IEnumerator InvincibilityRoutine()

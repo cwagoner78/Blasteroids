@@ -46,8 +46,10 @@ public class SpawnManager : MonoBehaviour
 
             if (gameObject.CompareTag("PowerUpSpawner"))
             {
-                if (_player.shieldsActive && newSpawnIndex == 2) newSpawnIndex--;
-                if (_shooting.hasTripleShot && newSpawnIndex == 1) newSpawnIndex--;
+                if (_player.currentBoost == _player.maxBoost && newSpawnIndex == 0) newSpawnIndex++;
+                if (_shooting.hasTripleShot && newSpawnIndex == 1) newSpawnIndex++;
+                if (_player.shieldsActive && newSpawnIndex == 2) newSpawnIndex++;
+                if (_player.lives == 3 && newSpawnIndex == 3) newSpawnIndex -= 3;
             }
 
             GameObject newSpawn = Instantiate(_spawnPrefabs[newSpawnIndex], _spawnPos, _spawnPrefabs[newSpawnIndex].transform.rotation);
