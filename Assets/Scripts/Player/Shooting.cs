@@ -15,13 +15,16 @@ public class Shooting : MonoBehaviour
     private AudioSource _laserSound;
     private AudioSource _tripleShotSound;
     private GameManager _gameManager;
+    private UIManager _uiManager;
 
     [Header("Cool Downs")]    
     [SerializeField] private float _bulletWaitTime = 0.25f;
 
     [Header("Flags")]
+    [SerializeField] private int _maxAmmo = 15;
     [SerializeField] private bool _canShoot = true;
     public bool hasTripleShot = false;
+    private int _ammoCount;
 
     private void Start()
     {
@@ -33,11 +36,17 @@ public class Shooting : MonoBehaviour
 
         _gameManager = FindObjectOfType<GameManager>();
         if (_gameManager == null) Debug.LogError("_gameManager is Null");
+
+        _uiManager = FindObjectOfType<UIManager>();
+        if (_uiManager == null) Debug.LogError("_uiManager is Null");
+
+        _ammoCount = _maxAmmo;
     }
 
     void Update()
     {
-        if (!_gameManager.gamePaused && _canShoot && Input.GetButtonDown("Fire1")) Shoot();
+        if (_ammoCount == 0) return;
+        else if (!_gameManager.gamePaused && _canShoot && Input.GetButtonDown("Fire1")) Shoot();
     }
 
     public void Shoot()
@@ -46,16 +55,19 @@ public class Shooting : MonoBehaviour
         {
             _laserSound.Play();
             _muzzleFlash.GetComponent<ParticleSystem>().Play();
-            Instantiate(_laserPrefab, transform.position + new Vector3(0,1.5f,0), Quaternion.identity);
-            
+            Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.5f, 0), Quaternion.identity);
+            _ammoCount--;
+            _uiManager.UpdateAmmoCount(_ammoCount);
         }
-        else 
+        else
         {
             _tripleShotSound.Play();
             _muzzleFlash.GetComponent<ParticleSystem>().Play();
             _LeftWingFlash.GetComponent<ParticleSystem>().Play();
             _RightWingFlash.GetComponent<ParticleSystem>().Play();
             Instantiate(_tripleShotPrefab, transform.position + new Vector3(0, 0.5f, 0), Quaternion.identity);
+            _ammoCount--;
+            _uiManager.UpdateAmmoCount(_ammoCount);
         }
         _canShoot = false;
         StartCoroutine(BulletWaitTimer());
@@ -70,12 +82,6 @@ public class Shooting : MonoBehaviour
     public void TripleShotActive()
     {
         hasTripleShot = true;
-    }
-
-    IEnumerator PowerUpTimer(float timer)
-    {
-        yield return new WaitForSeconds(timer);
-        hasTripleShot = false;
     }
 
     public void DisableTripleShot()
