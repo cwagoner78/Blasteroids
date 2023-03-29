@@ -7,8 +7,10 @@ using System;
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private TMP_Text _scoreText;
+    [SerializeField] private TMP_Text _ammoText;
     [SerializeField] private TMP_Text _restartText;
     private byte _alpha;
+    private int _ammoCount;
 
     [SerializeField] private int _score;
     [SerializeField] private Sprite[] _livesSprites;
@@ -23,6 +25,12 @@ public class UIManager : MonoBehaviour
     public void UpdateLives(int currentLives)
     {
         _livesImage.sprite = _livesSprites[currentLives];
+    }
+
+    public void UpdateAmmoCount(int ammo)
+    {
+        _ammoCount = ammo;
+        _ammoText.text = _ammoCount.ToString() + " Ammo Left";
     }
 
     public void OnGameOver()
