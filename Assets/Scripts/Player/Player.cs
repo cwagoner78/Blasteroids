@@ -24,8 +24,8 @@ public class Player : MonoBehaviour
     [SerializeField] private int _startingHealth = 1;
     public int lives = 3;
     [SerializeField] private float _invincibilityTimer = 3f;
-    public bool shieldsActive = false;
-    private int _shieldHealth;
+    private bool _shieldsActive = false;
+    public int shieldHealth;
     private bool _isInvincible = false;
     private int _health = 1;
 
@@ -214,23 +214,23 @@ public class Player : MonoBehaviour
     {
         _source.volume = .5f;
         _source.Play();
-        shieldsActive = true;
+        _shieldsActive = true;
         _shields.enabled = true;
         _shields.color = new Color32(0, 255, 255, 65);
-        _shieldHealth = 3;
+        shieldHealth = 3;
     }
 
     public void Damage(int damage)
     {
         if (_isInvincible) return;
-        else if (shieldsActive)
+        else if (_shieldsActive)
         {
-            _shieldHealth -= 1;
+            shieldHealth -= 1;
             _explosionEffect.Play();
             _audioManager.PlayExplosion();
-            if (_shieldHealth <= 0)
+            if (shieldHealth <= 0)
             {
-                shieldsActive = false;
+                _shieldsActive = false;
                 _shields.enabled = false;
                 _source.Stop();
             }
@@ -254,8 +254,8 @@ public class Player : MonoBehaviour
             _health = _startingHealth;
         }
 
-        if (_shieldHealth == 2) _shields.color = new Color32(255, 255, 0, 65);
-        if (_shieldHealth == 1) _shields.color = new Color32(255, 0, 0, 65);
+        if (shieldHealth == 2) _shields.color = new Color32(255, 255, 0, 65);
+        if (shieldHealth == 1) _shields.color = new Color32(255, 0, 0, 65);
 
         if (lives == 2) _leftDamage.Play();
         if (lives == 1) _rightDamage.Play();

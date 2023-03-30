@@ -14,6 +14,7 @@ public class Shooting : MonoBehaviour
     [SerializeField] private GameObject _tripleShotContainer;
     private AudioSource _laserSound;
     private AudioSource _tripleShotSound;
+    private AudioSource _noAmmoSound;
     private GameManager _gameManager;
     private UIManager _uiManager;
 
@@ -34,6 +35,9 @@ public class Shooting : MonoBehaviour
         _tripleShotSound = GameObject.Find("TripleShotSound").GetComponent<AudioSource>();
         if (_tripleShotSound == null) Debug.LogError("_tripleShotSound is Null");
 
+        _noAmmoSound = GameObject.Find("NoAmmoSound").GetComponent<AudioSource>();
+        if (_noAmmoSound == null) Debug.LogError("_noAmmoSound is Null");
+
         _gameManager = FindObjectOfType<GameManager>();
         if (_gameManager == null) Debug.LogError("_gameManager is Null");
 
@@ -46,12 +50,17 @@ public class Shooting : MonoBehaviour
 
     void Update()
     {
-        if (ammoCount == 0) return;
-        else if (!_gameManager.gamePaused && _canShoot && Input.GetButtonDown("Fire1")) Shoot();
+        if (!_gameManager.gamePaused && _canShoot && Input.GetButtonDown("Fire1")) Shoot();
     }
 
     public void Shoot()
     {
+        if (ammoCount == 0)
+        {
+            _noAmmoSound.Play();
+            return;
+        } 
+
         if (!hasTripleShot)
         {
             _laserSound.Play();

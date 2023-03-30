@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PowerUp : MonoBehaviour
 {
-    [SerializeField] private int _powerUpID; // '0' = SpeedBoost, '1' = TripleShot, '2' Shields, '3' Health
+    [SerializeField] private int _powerUpID; // '0' SpeedBoost, '1' TripleShot, '2' Shields, '3' Health, '4' Ammo
     [SerializeField] private float _moveSpeed = 3f;
     [SerializeField] private ParticleSystem _trailParticles;
     [SerializeField] private ParticleSystem _collectParticles;
