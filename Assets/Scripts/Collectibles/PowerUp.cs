@@ -60,6 +60,7 @@ public class PowerUp : MonoBehaviour
                 case 1: _shooting.TripleShotActive(); break;
                 case 2: _player.ShieldPowerUp(); break;
                 case 3: _player.HealthGained(); break;
+                case 4: _shooting.AmmoGained(); break;
                 default: Debug.Log("Default Value"); break;
             }
 

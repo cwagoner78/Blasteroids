@@ -49,7 +49,8 @@ public class SpawnManager : MonoBehaviour
                 if (_player.currentBoost == _player.maxBoost && newSpawnIndex == 0) newSpawnIndex++;
                 if (_shooting.hasTripleShot && newSpawnIndex == 1) newSpawnIndex++;
                 if (_player.shieldsActive && newSpawnIndex == 2) newSpawnIndex++;
-                if (_player.lives == 3 && newSpawnIndex == 3) newSpawnIndex -= 3;
+                if (_player.lives == 3 && newSpawnIndex == 3) newSpawnIndex++;
+                if (_shooting.ammoCount == 0) newSpawnIndex = 4;
             }
 
             GameObject newSpawn = Instantiate(_spawnPrefabs[newSpawnIndex], _spawnPos, _spawnPrefabs[newSpawnIndex].transform.rotation);
