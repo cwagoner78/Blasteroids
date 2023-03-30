@@ -24,7 +24,7 @@ public class Shooting : MonoBehaviour
     [SerializeField] private int _maxAmmo = 15;
     [SerializeField] private bool _canShoot = true;
     public bool hasTripleShot = false;
-    private int _ammoCount;
+    public int ammoCount;
 
     private void Start()
     {
@@ -40,12 +40,13 @@ public class Shooting : MonoBehaviour
         _uiManager = FindObjectOfType<UIManager>();
         if (_uiManager == null) Debug.LogError("_uiManager is Null");
 
-        _ammoCount = _maxAmmo;
+        ammoCount = _maxAmmo;
+        _uiManager.UpdateAmmoCount(ammoCount);
     }
 
     void Update()
     {
-        if (_ammoCount == 0) return;
+        if (ammoCount == 0) return;
         else if (!_gameManager.gamePaused && _canShoot && Input.GetButtonDown("Fire1")) Shoot();
     }
 
@@ -56,8 +57,8 @@ public class Shooting : MonoBehaviour
             _laserSound.Play();
             _muzzleFlash.GetComponent<ParticleSystem>().Play();
             Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.5f, 0), Quaternion.identity);
-            _ammoCount--;
-            _uiManager.UpdateAmmoCount(_ammoCount);
+            ammoCount--;
+            _uiManager.UpdateAmmoCount(ammoCount);
         }
         else
         {
@@ -66,11 +67,17 @@ public class Shooting : MonoBehaviour
             _LeftWingFlash.GetComponent<ParticleSystem>().Play();
             _RightWingFlash.GetComponent<ParticleSystem>().Play();
             Instantiate(_tripleShotPrefab, transform.position + new Vector3(0, 0.5f, 0), Quaternion.identity);
-            _ammoCount--;
-            _uiManager.UpdateAmmoCount(_ammoCount);
+            ammoCount--;
+            _uiManager.UpdateAmmoCount(ammoCount);
         }
         _canShoot = false;
         StartCoroutine(BulletWaitTimer());
+    }
+
+    public void AmmoGained()
+    {
+        ammoCount = _maxAmmo;
+        _uiManager.UpdateAmmoCount(ammoCount); 
     }
 
     IEnumerator BulletWaitTimer()

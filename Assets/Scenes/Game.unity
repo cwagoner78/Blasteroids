@@ -5262,7 +5262,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 15 Ammo Left
+  m_text: 0 Ammo Left
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7e0bcfbcec7e1464f9ca00d09db70faa, type: 2}
   m_sharedMaterial: {fileID: -6180367952232056436, guid: 7e0bcfbcec7e1464f9ca00d09db70faa, type: 2}
@@ -20586,13 +20586,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1b099857ef34dd4eb7f70bc0e944164, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _fastest: 10
-  _longest: 20
+  _fastest: 7
+  _longest: 14
   _spawnPrefabs:
   - {fileID: 3129271782196582723, guid: 9943d99728670f549aceda4771b4ac78, type: 3}
   - {fileID: 8594188430703826697, guid: d8cc547fa2eb3d84ba9a1ae9f7328d82, type: 3}
   - {fileID: 1028080269549880315, guid: 3d1ec1b3a9c7d054dbdc28eb0f8b1bca, type: 3}
   - {fileID: 311799010298836590, guid: 590eb3440a540a14ba006088f1a4b119, type: 3}
+  - {fileID: 8103051067967495305, guid: d42804a7c1e1a3941b729daa6cfda225, type: 3}
   _spawnContainer: {fileID: 1525897823}
 --- !u!4 &620856943
 Transform:
@@ -20935,9 +20936,10 @@ MonoBehaviour:
   _laserContainer: {fileID: 1399256480}
   _tripleShotContainer: {fileID: 1399256480}
   _bulletWaitTime: 0.25
-  _maxAmmo: 15
+  _maxAmmo: 30
   _canShoot: 1
   hasTripleShot: 0
+  ammoCount: 0
 --- !u!95 &643240360
 Animator:
   serializedVersion: 5
