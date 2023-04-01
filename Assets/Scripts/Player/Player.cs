@@ -234,15 +234,13 @@ public class Player : MonoBehaviour
                 _shields.enabled = false;
                 _source.Stop();
             }
-            StartCoroutine(InvincibilityRoutine());
         }
         else
         {
             _health -= damage;
             _explosionEffect.Play();
             _audioManager.PlayExplosion();
-            StartCoroutine(InvincibilityRoutine());
-        } 
+        }
 
         if (_health <= 0)
         {
@@ -253,6 +251,9 @@ public class Player : MonoBehaviour
             _shooting.DisableTripleShot();
             _health = _startingHealth;
         }
+
+        StartCoroutine(InvincibilityRoutine());
+        _uiManager.StartDamageStreaks();
 
         if (shieldHealth == 2) _shields.color = new Color32(255, 255, 0, 65);
         if (shieldHealth == 1) _shields.color = new Color32(255, 0, 0, 65);

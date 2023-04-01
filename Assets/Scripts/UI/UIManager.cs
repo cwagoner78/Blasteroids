@@ -15,6 +15,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private int _score;
     [SerializeField] private Sprite[] _livesSprites;
     [SerializeField] private Image _livesImage;
+    [SerializeField] private Animator _damageStreakAnim;
 
     public void AddScore(int points)
     {
@@ -48,5 +49,21 @@ public class UIManager : MonoBehaviour
             _restartText.color = new Color32(255, 0, 0, _alpha);
         }
         
+    }
+
+    public void StartDamageStreaks()
+    {
+        
+        _damageStreakAnim.SetBool("TookDamage", true);
+        //_damageStreakAnim.SetBool("TookDamage", false);
+        StartCoroutine(PlayDamageStreaks());
+    }
+
+    IEnumerator PlayDamageStreaks()
+    {
+        yield return new WaitForSeconds(.35f);
+        _damageStreakAnim.SetBool("TookDamage", false);
+        _damageStreakAnim.StopPlayback();
+
     }
 }
