@@ -4,7 +4,7 @@ public class CameraShake : MonoBehaviour
 {
     [Header("Camera Information")]
     private Transform _cameraTransform;
-    private Vector3 _orignalCameraPos;
+    private Vector3 _originalCameraPos;
 
     [Header("Shake Parameters")]
     [SerializeField] float _shakeDuration = 2f;
@@ -21,7 +21,7 @@ public class CameraShake : MonoBehaviour
 
     void Update()
     {
-        _orignalCameraPos = transform.localPosition;
+        _originalCameraPos = transform.localPosition;
 
         if (_canShake) StartCameraShakeEffect();
     }
@@ -32,17 +32,17 @@ public class CameraShake : MonoBehaviour
         _shakeTimer = _shakeDuration;
     }
 
-    public void StartCameraShakeEffect()
+    void StartCameraShakeEffect()
     {
         if (_shakeTimer > 0)
         {
-            _cameraTransform.localPosition = _orignalCameraPos + Random.insideUnitSphere * _shakeAmount;
+            _cameraTransform.localPosition = _originalCameraPos + Random.insideUnitSphere * _shakeAmount;
             _shakeTimer -= Time.deltaTime;
         }
         else
         {
             _shakeTimer = 0f;
-            _cameraTransform.position = _orignalCameraPos;
+            _cameraTransform.position = _originalCameraPos;
             _canShake = false;
         }
     }

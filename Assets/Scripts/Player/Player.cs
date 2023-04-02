@@ -259,8 +259,6 @@ public class Player : MonoBehaviour
             _health = _startingHealth;
         }
 
-
-
         if (shieldHealth == 2) _shields.color = new Color32(255, 255, 0, 65);
         if (shieldHealth == 1) _shields.color = new Color32(255, 0, 0, 65);
 

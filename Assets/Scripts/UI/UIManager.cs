@@ -54,14 +54,12 @@ public class UIManager : MonoBehaviour
     public void StartDamageStreaks()
     {
         _damageStreakAnim.SetBool("TookDamage", true);
-        StartCoroutine(PlayDamageStreaks());
+        StartCoroutine(StopDamageStreaks());
     }
 
-    IEnumerator PlayDamageStreaks()
+    IEnumerator StopDamageStreaks()
     {
         yield return new WaitForSeconds(.35f);
         _damageStreakAnim.SetBool("TookDamage", false);
-
-
     }
 }
