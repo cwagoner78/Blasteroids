@@ -52,6 +52,7 @@ public class Player : MonoBehaviour
     private AudioSource _source;
     private GameOverAnimation _gameOver;
     private Shooting _shooting;
+    private CameraShake _shake;
     private float _startingMoveForce;
     private float _inputX;
     private float _inputY;
@@ -106,6 +107,9 @@ public class Player : MonoBehaviour
 
         _source = GetComponent<AudioSource>();
         if (_source == null) Debug.LogError("_source is NULL");
+
+        _shake = FindObjectOfType<CameraShake>();
+        if (_shake == null) Debug.LogError("_shake is NULL");
 
         transform.position = new Vector3(0, 0, 0);
         _startingMoveForce = _moveForce;
@@ -240,6 +244,9 @@ public class Player : MonoBehaviour
             _health -= damage;
             _explosionEffect.Play();
             _audioManager.PlayExplosion();
+            StartCoroutine(InvincibilityRoutine());
+            _uiManager.StartDamageStreaks();
+            _shake.ShakeCamera();
         }
 
         if (_health <= 0)
@@ -252,8 +259,7 @@ public class Player : MonoBehaviour
             _health = _startingHealth;
         }
 
-        StartCoroutine(InvincibilityRoutine());
-        _uiManager.StartDamageStreaks();
+
 
         if (shieldHealth == 2) _shields.color = new Color32(255, 255, 0, 65);
         if (shieldHealth == 1) _shields.color = new Color32(255, 0, 0, 65);

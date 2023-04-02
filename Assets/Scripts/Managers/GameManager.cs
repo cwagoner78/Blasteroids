@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour
 
     void SetPauseGame()
     {
+        if (_isGameOver) return;
         if (_powerUp == null) _powerUp = FindObjectOfType<PowerUp>();
 
         if (!gamePaused)

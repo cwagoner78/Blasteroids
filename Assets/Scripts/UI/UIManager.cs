@@ -53,9 +53,7 @@ public class UIManager : MonoBehaviour
 
     public void StartDamageStreaks()
     {
-        
         _damageStreakAnim.SetBool("TookDamage", true);
-        //_damageStreakAnim.SetBool("TookDamage", false);
         StartCoroutine(PlayDamageStreaks());
     }
 
@@ -63,7 +61,7 @@ public class UIManager : MonoBehaviour
     {
         yield return new WaitForSeconds(.35f);
         _damageStreakAnim.SetBool("TookDamage", false);
-        _damageStreakAnim.StopPlayback();
+
 
     }
 }
