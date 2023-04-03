@@ -7,11 +7,14 @@ public class SpawnManager : MonoBehaviour
 {
     [SerializeField] private float _fastest = 3f;
     [SerializeField] private float _longest = 6f;
+    [SerializeField] private float _startingNukeTimer = 30;
+    private float _nukeTimer;
     [SerializeField] private GameObject[] _spawnPrefabs;
     [SerializeField] private GameObject _spawnContainer;
 
     private Player _player;
     private Shooting _shooting;
+    private GameManager _gameManager;
 
     private bool _waveStarted = false;
     private bool _stopSpawning = false;
@@ -24,6 +27,15 @@ public class SpawnManager : MonoBehaviour
         _shooting = FindObjectOfType<Shooting>();
         if (_shooting == null) Debug.LogError("_shooting is NULL");
 
+        _gameManager = FindObjectOfType<GameManager>();
+        if (_gameManager == null) Debug.LogError("_gameManager is NULL");
+
+        _nukeTimer = _startingNukeTimer;
+    }
+
+    private void Update()
+    {
+        if (!_gameManager.gamePaused && _waveStarted) UpdateNukeTimer();
     }
 
     public void StartSpawning()
@@ -34,6 +46,13 @@ public class SpawnManager : MonoBehaviour
             _waveStarted = true;
         } 
         else return;
+    }
+
+    void UpdateNukeTimer()
+    { 
+        if (!_shooting.hasNuke) _nukeTimer -= Time.deltaTime;
+        if (_shooting.hasNuke) _nukeTimer = _startingNukeTimer;
+        if (_nukeTimer < 0) _nukeTimer = 0;
     }
 
     IEnumerator SpawnRoutine()
@@ -51,6 +70,8 @@ public class SpawnManager : MonoBehaviour
                 if (_player.shieldHealth == 3 && newSpawnIndex == 2) newSpawnIndex++;
                 if (_player.lives == 3 && newSpawnIndex == 3) newSpawnIndex++;
                 if (_shooting.ammoCount == 0) newSpawnIndex = 4;
+                if (_nukeTimer < 1 && !_shooting.hasNuke) newSpawnIndex = 5;
+                if (_nukeTimer > 1 && newSpawnIndex == 5) newSpawnIndex = 4;
             }
 
             GameObject newSpawn = Instantiate(_spawnPrefabs[newSpawnIndex], _spawnPos, _spawnPrefabs[newSpawnIndex].transform.rotation);

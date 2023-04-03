@@ -20,7 +20,7 @@ public class Asteroid : MonoBehaviour
     [SerializeField] private int _damage = 1;
     [SerializeField] private int _pointVal = 1;
     private UIManager _uiManager;
-    private Player _player;
+    //private Player _player;
     private SpawnManager _asteroidSpawner;
     private SpawnManager _enemySpawner;
     private SpawnManager _powerUpSpawner;
@@ -46,7 +46,7 @@ public class Asteroid : MonoBehaviour
         _powerUpSpawner = GameObject.Find("PowerUpSpawner").GetComponent<SpawnManager>();
         if (_powerUpSpawner == null) Debug.LogError("_powerUpSpawner is NULL");
 
-        _player = FindObjectOfType<Player>();
+        //_player = FindObjectOfType<Player>();
         //if (_player == null) Debug.LogError("_player is NULL");
 
         _audioManager = FindObjectOfType<AudioManager>();

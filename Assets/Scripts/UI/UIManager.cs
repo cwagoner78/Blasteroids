@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text _scoreText;
     [SerializeField] private TMP_Text _ammoText;
     [SerializeField] private TMP_Text _restartText;
+    [SerializeField] private GameObject _nukeIcon;
     private byte _alpha;
     private int _ammoCount;
 
@@ -48,7 +49,16 @@ public class UIManager : MonoBehaviour
             yield return new WaitForSeconds(0.01f);
             _restartText.color = new Color32(255, 0, 0, _alpha);
         }
-        
+    }
+
+    public void EnableNukeIcon()
+    {
+        _nukeIcon.SetActive(true);
+    }
+
+    public void DisableNukeIcon()
+    {
+        _nukeIcon.SetActive(false);
     }
 
     public void StartDamageStreaks()
