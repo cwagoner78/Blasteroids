@@ -7,6 +7,7 @@ public class Shooting : MonoBehaviour
     [Header("Object Assignments")]
     [SerializeField] private GameObject _laserPrefab;
     [SerializeField] private GameObject _tripleShotPrefab;
+    [SerializeField] private GameObject _nukePrefab;
     [SerializeField] private GameObject _muzzleFlash;
     [SerializeField] private GameObject _LeftWingFlash;
     [SerializeField] private GameObject _RightWingFlash;
@@ -24,6 +25,7 @@ public class Shooting : MonoBehaviour
     [Header("Flags")]
     [SerializeField] private int _maxAmmo = 15;
     [SerializeField] private bool _canShoot = true;
+    public bool hasNuke = false;
     public bool hasTripleShot = false;
     public int ammoCount;
 
@@ -51,6 +53,7 @@ public class Shooting : MonoBehaviour
     void Update()
     {
         if (!_gameManager.gamePaused && _canShoot && Input.GetButtonDown("Fire1")) Shoot();
+        if (!_gameManager.gamePaused && hasNuke && Input.GetButtonDown("Fire2")) FireNuke();
     }
 
     public void Shoot()
@@ -81,6 +84,20 @@ public class Shooting : MonoBehaviour
         }
         _canShoot = false;
         StartCoroutine(BulletWaitTimer());
+    }
+
+    public void NukeGained()
+    {
+        hasNuke = true;
+        _uiManager.EnableNukeIcon();
+    }
+
+    void FireNuke()
+    {
+        GameObject nuke = Instantiate(_nukePrefab, transform.position, Quaternion.identity);
+        hasNuke = false;
+        _uiManager.DisableNukeIcon();
+        Destroy(nuke, 10);
     }
 
     public void AmmoGained()

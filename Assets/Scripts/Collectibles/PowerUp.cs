@@ -61,6 +61,7 @@ public class PowerUp : MonoBehaviour
                 case 2: _player.ShieldPowerUp(); break;
                 case 3: _player.HealthGained(); break;
                 case 4: _shooting.AmmoGained(); break;
+                case 5: _shooting.NukeGained(); break;
                 default: Debug.Log("Default Value"); break;
             }
 

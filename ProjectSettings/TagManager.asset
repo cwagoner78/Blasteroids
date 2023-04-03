@@ -13,6 +13,7 @@ TagManager:
   - EnemySpawner
   - PowerUpSpawner
   - AsteroidSpawner
+  - Nuke
   layers:
   - Default
   - TransparentFX

@@ -5142,7 +5142,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _powerUpID: 3
-  _moveSpeed: 3
+  _moveSpeed: 4
   _trailParticles: {fileID: 311799010811977948}
   _collectParticles: {fileID: 311799009979621584}
   _pointVal: 50
