@@ -7,7 +7,7 @@ public class SpawnManager : MonoBehaviour
 {
     [SerializeField] private float _fastest = 3f;
     [SerializeField] private float _longest = 6f;
-    [SerializeField] private float _startingNukeTimer = 30;
+    [SerializeField] private float _startingNukeTimer = 60;
     private float _nukeTimer;
     [SerializeField] private GameObject[] _spawnPrefabs;
     [SerializeField] private GameObject _spawnContainer;
