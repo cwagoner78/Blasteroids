@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6270340506034793316}
   m_Layer: 0
   m_Name: EnemyLaser
-  m_TagString: Untagged
+  m_TagString: EnemyLaser
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -131,7 +131,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 59de8b01de309714cb66f34d36560c05, type: 2}
     - target: {fileID: 5336360435468595344, guid: 1ea575fef791a1b4696bfa67c92e92ef, type: 3}
       propertyPath: _speed
-      value: -25
+      value: -20
       objectReference: {fileID: 0}
     - target: {fileID: 5387574785619489766, guid: 1ea575fef791a1b4696bfa67c92e92ef, type: 3}
       propertyPath: m_Name
@@ -241,7 +241,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 59de8b01de309714cb66f34d36560c05, type: 2}
     - target: {fileID: 5336360435468595344, guid: 1ea575fef791a1b4696bfa67c92e92ef, type: 3}
       propertyPath: _speed
-      value: -25
+      value: -20
       objectReference: {fileID: 0}
     - target: {fileID: 5387574785619489766, guid: 1ea575fef791a1b4696bfa67c92e92ef, type: 3}
       propertyPath: m_Name
