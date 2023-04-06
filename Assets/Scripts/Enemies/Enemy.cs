@@ -121,6 +121,7 @@ public class Enemy : MonoBehaviour
         Vector3 forward = new Vector3(0,0,1);
         Vector3 left = new Vector3(-_turnSpeed, 0,1);
         Vector3 right = new Vector3(_turnSpeed, 0,1);
+        Vector3 position = transform.position;
 
 
         if (_movingLeft)
@@ -140,8 +141,8 @@ public class Enemy : MonoBehaviour
             _anim.SetBool("MovingRight", false);
         }
 
-        if (transform.position.y < -_yPosBound + 10f) Destroy(gameObject);
-        if (transform.position.z > 0 || transform.position.z < 0) transform.position = new Vector3(transform.position.x, transform.position.y, 0);
+        if (position.y < -_yPosBound + 10f) Destroy(gameObject);
+        if (position.z > 0 || position.z < 0) position = new Vector3(position.x, position.y, 0);
     }
 
     void Shoot()
