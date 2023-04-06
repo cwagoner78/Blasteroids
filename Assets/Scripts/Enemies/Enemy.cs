@@ -11,8 +11,11 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Collider[] _colliders;
     [SerializeField] private ParticleSystem _explosion;
     [SerializeField] private MeshRenderer _mesh;
+    [SerializeField] private Collider _collisionDetect;
+    [SerializeField] private Animator _anim;
 
-    [Header("Fighter Controls")]
+    [Header("Controls")]
+    [SerializeField] private float _turnSpeed = 0.5f;
     [SerializeField] private bool _canShoot;
     [SerializeField] private GameObject _enemyLaserPrefab;
     [SerializeField] private float _fireRate = 3;
@@ -26,6 +29,9 @@ public class Enemy : MonoBehaviour
     private AudioSource _enemyLaserSound;
 
     private bool _isAlive = true;
+    private bool _movingLeft = false;
+    private bool _movingRight = false;
+
 
 
     private void Start()
@@ -39,13 +45,15 @@ public class Enemy : MonoBehaviour
         _audioManager = FindObjectOfType<AudioManager>();
         if (_audioManager == null) Debug.LogError("_audioManager is NULL");
 
+        _anim = GetComponent<Animator>();
+        if (_anim == null) Debug.LogError("_anim is NULL");
+
         _speed = Random.Range(_speed / 1.25f, _speed * 1.25f);
     }
 
     void FixedUpdate()
     {
         CalculateMovement();
-        if (_isAlive) Shoot();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -83,10 +91,57 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag != "Player" && other.transform.position.x - transform.position.x > 0)
+        {
+            _movingRight = true;
+      
+        }
+
+        if (other.tag != "Player" && other.transform.position.x - transform.position.x < 0)
+        {
+            _movingLeft = true;
+        }
+
+        if (other.tag == "Player" || other.tag == "Asteroid") Shoot();
+
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        _movingRight = false;
+        _movingLeft = false;
+
+    }
+
     void CalculateMovement()
     {
-        transform.Translate(Vector3.forward * _speed * Time.deltaTime);
+
+        Vector3 forward = new Vector3(0,0,1);
+        Vector3 left = new Vector3(-_turnSpeed, 0,1);
+        Vector3 right = new Vector3(_turnSpeed, 0,1);
+
+
+        if (_movingLeft)
+        {
+            transform.Translate(left * _speed * Time.deltaTime);
+            _anim.SetBool("MovingLeft", true);
+        }
+        else if (_movingRight)
+        {
+            transform.Translate(right * _speed * Time.deltaTime);
+            _anim.SetBool("MovingRight", true);
+        }
+        else if (!_movingLeft || !_movingRight)
+        {
+            transform.Translate(forward * _speed * Time.deltaTime);
+            _anim.SetBool("MovingLeft", false);
+            _anim.SetBool("MovingRight", false);
+        }
+
         if (transform.position.y < -_yPosBound + 10f) Destroy(gameObject);
+        if (transform.position.z > 0 || transform.position.z < 0) transform.position = new Vector3(transform.position.x, transform.position.y, 0);
     }
 
     void Shoot()
@@ -96,9 +151,7 @@ public class Enemy : MonoBehaviour
             _enemyLaserSound.Play();
             _fireRate = Random.Range(_fireRate / 2f, _fireRate * 2f);
             _canFire = Time.time + _fireRate;
-            Instantiate(_enemyLaserPrefab, transform.position + new Vector3(0, -.75f, 0), transform.rotation);
-
-            //Debug.Break();
+            Instantiate(_enemyLaserPrefab, transform.position + new Vector3(0, -1f, 0), transform.rotation);
         }
     }
 }
