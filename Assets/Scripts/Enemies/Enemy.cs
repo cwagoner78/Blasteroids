@@ -96,7 +96,6 @@ public class Enemy : MonoBehaviour
         if (other.tag != "Player" && other.transform.position.x - transform.position.x > 0)
         {
             _movingRight = true;
-      
         }
 
         if (other.tag != "Player" && other.transform.position.x - transform.position.x < 0)
@@ -105,7 +104,6 @@ public class Enemy : MonoBehaviour
         }
 
         if (other.tag == "Player" || other.tag == "Asteroid") Shoot();
-
     }
 
     private void OnTriggerExit(Collider other)
@@ -117,12 +115,10 @@ public class Enemy : MonoBehaviour
 
     void CalculateMovement()
     {
-
         Vector3 forward = new Vector3(0,0,1);
         Vector3 left = new Vector3(-_turnSpeed, 0,1);
         Vector3 right = new Vector3(_turnSpeed, 0,1);
         Vector3 position = transform.position;
-
 
         if (_movingLeft)
         {

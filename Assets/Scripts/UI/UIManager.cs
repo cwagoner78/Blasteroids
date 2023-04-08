@@ -14,8 +14,13 @@ public class UIManager : MonoBehaviour
     private int _ammoCount;
 
     [SerializeField] private int _score;
+    
     [SerializeField] private Sprite[] _livesSprites;
     [SerializeField] private Image _livesImage;
+
+    [SerializeField] private Sprite[] _ammoSprites;
+    [SerializeField] private Image _ammoImage;
+
     [SerializeField] private Animator _damageStreakAnim;
 
     public void AddScore(int points)
@@ -33,6 +38,7 @@ public class UIManager : MonoBehaviour
     {
         _ammoCount = ammo;
         _ammoText.text = _ammoCount.ToString() + " Ammo Left";
+        _ammoImage.sprite = _ammoSprites[_ammoCount];
     }
 
     public void OnGameOver()
