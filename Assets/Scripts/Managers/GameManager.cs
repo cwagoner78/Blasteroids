@@ -13,10 +13,23 @@ public class GameManager : MonoBehaviour
     public Scene currentScene;
     public bool gamePaused;
 
+    private SpawnManager _asteroidSpawner;
+    private SpawnManager _enemySpawner;
+    private SpawnManager _powerUpSpawner;
+
     private void Start()
     {
         _audioManager = FindObjectOfType<AudioManager>();
         if (_audioManager == null) Debug.LogError("_audioManager is NULL");
+
+        _asteroidSpawner = GameObject.Find("AsteroidSpawner").GetComponent<SpawnManager>();
+        if (_asteroidSpawner == null) Debug.LogError("_asteroidSpawner is NULL");
+
+        _enemySpawner = GameObject.Find("EnemySpawner").GetComponent<SpawnManager>();
+        if (_enemySpawner == null) Debug.LogError("_enemySpawner is NULL");
+
+        _powerUpSpawner = GameObject.Find("PowerUpSpawner").GetComponent<SpawnManager>();
+        if (_powerUpSpawner == null) Debug.LogError("_powerUpSpawner is NULL");
 
         _fade.SetBool("FadeIn", true);
 
@@ -62,6 +75,15 @@ public class GameManager : MonoBehaviour
             _powerUp.GamePaused(false);
             gamePaused = false;
         }
+    }
+
+    public void StartSpawning()
+    {
+        _asteroidSpawner.StartSpawning();
+        _enemySpawner.StartSpawning();
+        _powerUpSpawner.StartSpawning();
+        _audioManager.StartGameMusic();
+        _audioManager.PlayExplosion();
     }
 
 

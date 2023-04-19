@@ -19,11 +19,8 @@ public class Asteroid : MonoBehaviour
     [Header("Damage and Point Val")]
     [SerializeField] private int _damage = 1;
     [SerializeField] private int _pointVal = 1;
+    
     private UIManager _uiManager;
-    //private Player _player;
-    private SpawnManager _asteroidSpawner;
-    private SpawnManager _enemySpawner;
-    private SpawnManager _powerUpSpawner;
     private AudioManager _audioManager;
     private GameManager _gameManager;
 
@@ -36,18 +33,6 @@ public class Asteroid : MonoBehaviour
 
         _uiManager = FindObjectOfType<UIManager>();
         if (_spawnContainer == null) Debug.LogError("_uiManager is NULL");
-
-        _asteroidSpawner = GameObject.Find("AsteroidSpawner").GetComponent<SpawnManager>();
-        if (_asteroidSpawner == null) Debug.LogError("_asteroidSpawner is NULL");
-
-        _enemySpawner = GameObject.Find("EnemySpawner").GetComponent<SpawnManager>();
-        if (_enemySpawner == null) Debug.LogError("_enemySpawner is NULL");
-
-        _powerUpSpawner = GameObject.Find("PowerUpSpawner").GetComponent<SpawnManager>();
-        if (_powerUpSpawner == null) Debug.LogError("_powerUpSpawner is NULL");
-
-        //_player = FindObjectOfType<Player>();
-        //if (_player == null) Debug.LogError("_player is NULL");
 
         _audioManager = FindObjectOfType<AudioManager>();
         if (_audioManager == null) Debug.LogError("_audioManager is NULL");
@@ -68,11 +53,7 @@ public class Asteroid : MonoBehaviour
     {
         if (_isWaveAsteroid)
         {
-            _asteroidSpawner.StartSpawning();
-            _enemySpawner.StartSpawning();
-            _powerUpSpawner.StartSpawning();
-            _audioManager.StartGameMusic();
-            _audioManager.PlayExplosion();
+            _gameManager.StartSpawning();
             _isWaveAsteroid = false;
 
         } 

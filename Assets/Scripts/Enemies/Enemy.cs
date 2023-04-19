@@ -6,15 +6,15 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private float _speed = 1f;
-    [SerializeField] private float _yPosBound = 15f;
-    [SerializeField] private Collider[] _colliders;
+    [Header("Components")]
     [SerializeField] private ParticleSystem _explosion;
     [SerializeField] private MeshRenderer _mesh;
-    [SerializeField] private Collider _collisionDetect;
     [SerializeField] private Animator _anim;
+    private Collider[] _colliders;
 
     [Header("Controls")]
+    [SerializeField] private float _speed = 1f;
+    [SerializeField] private float _yPosBound = 15f;
     [SerializeField] private float _turnSpeed = 0.5f;
     [SerializeField] private bool _canShoot;
     [SerializeField] private GameObject _enemyLaserPrefab;
@@ -27,15 +27,17 @@ public class Enemy : MonoBehaviour
     private UIManager _uiManager;
     private AudioManager _audioManager;
     private AudioSource _enemyLaserSound;
+    private Player _player;
 
     private bool _isAlive = true;
     private bool _movingLeft = false;
     private bool _movingRight = false;
-
-
-
+    
     private void Start()
     {
+        _player = FindObjectOfType<Player>();
+        if (_player == null) Debug.LogError("_player is NULL");
+
         _enemyLaserSound = GameObject.Find("EnemyLaserSound").GetComponent<AudioSource>();
         if (_enemyLaserSound == null) Debug.LogError("_enemyLaserSound is Null");
 

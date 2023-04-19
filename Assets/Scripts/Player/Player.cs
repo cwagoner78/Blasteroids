@@ -35,6 +35,10 @@ public class Player : MonoBehaviour
     [SerializeField] private ParticleSystem _leftDamage;
     [SerializeField] private ParticleSystem _rightDamage;
     [SerializeField] private GameObject _jets;
+    [SerializeField] private GameObject _tractorBeam;
+    private Animator _tractorBeamAnim;
+    private AudioSource _beamSource;
+
 
     private Rigidbody _rigidbody;
     private Animator _anim;
@@ -57,6 +61,7 @@ public class Player : MonoBehaviour
     private float _inputX;
     private float _inputY;
     private bool _inputEnabled = true;
+    public bool drawingPowerUp;
 
     void Start()
     {
@@ -111,6 +116,12 @@ public class Player : MonoBehaviour
         _shake = FindObjectOfType<CameraShake>();
         if (_shake == null) Debug.LogError("_shake is NULL");
 
+        _tractorBeamAnim = _tractorBeam.GetComponent<Animator>();
+        if (_tractorBeamAnim == null) Debug.LogError("_tractorBeamAnim is NULL");
+
+        _beamSource = _tractorBeam.GetComponent<AudioSource>();
+        if (_beamSource == null) Debug.LogError("_beamSource is NULL");
+
         transform.position = new Vector3(0, 0, 0);
         _startingMoveForce = _moveForce;
         _uiManager.UpdateLives(lives);
@@ -128,6 +139,8 @@ public class Player : MonoBehaviour
             CheckForSpeedBoost();
             HandleMovement();
             HandleAnimation();
+            CheckForTractorBeam();
+
         }
     }
 
@@ -154,8 +167,9 @@ public class Player : MonoBehaviour
 
         _rigidbody.AddForce(movement * _moveForce);
 
-        //Shield Movement
+        //Shield and Trac Beam Movement
         _shields.transform.position = transform.position - new Vector3(0,0,1);
+        _tractorBeam.transform.position = transform.position;
 
         //Bounds
         Vector3 position = transform.position;
@@ -185,6 +199,24 @@ public class Player : MonoBehaviour
             _anim.SetBool("MovingRight", false);
             _anim.SetBool("Idle", true);
         }
+    }
+
+    void CheckForTractorBeam()
+    {
+        if (Input.GetKey(KeyCode.C))
+        {
+            drawingPowerUp = true;
+            _tractorBeamAnim.SetBool("TractorBeamActive", true);
+            if (!_beamSource.isPlaying) _beamSource.Play();
+        }
+        else
+        {
+            drawingPowerUp = false;
+            _tractorBeamAnim.SetBool("TractorBeamActive", false);
+            if (_beamSource.volume > 0) _beamSource.volume -= 0.01f;
+            if (_beamSource.isPlaying) _beamSource.Stop();
+            _beamSource.volume = 1;
+        } 
     }
 
 

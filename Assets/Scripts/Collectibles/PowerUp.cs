@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting.FullSerializer;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class PowerUp : MonoBehaviour
@@ -9,6 +10,7 @@ public class PowerUp : MonoBehaviour
     [SerializeField] private float _moveSpeed = 3f;
     [SerializeField] private ParticleSystem _trailParticles;
     [SerializeField] private ParticleSystem _collectParticles;
+
 
     private Collider[] _colliders;
     private Player _player;
@@ -44,7 +46,13 @@ public class PowerUp : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(Vector3.down * Random.Range(_moveSpeed / 1.5f, _moveSpeed * 1.5f) * Time.deltaTime);
+        Vector3 direction;
+
+        if (_player.drawingPowerUp) direction = _player.transform.position - transform.position;
+        else direction = new Vector3(0, -1, 0);
+
+        transform.Translate(direction * Random.Range(_moveSpeed / 1.5f, _moveSpeed * 1.5f) * Time.deltaTime);
+        
         if (transform.position.y < -20f) Destroy(gameObject); 
     }
 
