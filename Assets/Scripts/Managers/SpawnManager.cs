@@ -17,6 +17,7 @@ public class SpawnManager : MonoBehaviour
     private Shooting _shooting;
     private GameManager _gameManager;
 
+    private int _currentWave;
     private bool _waveStarted = false;
     private bool _stopSpawning = false;
 
@@ -80,6 +81,11 @@ public class SpawnManager : MonoBehaviour
 
             yield return new WaitForSeconds(Random.Range(_fastest, _longest));
         }
+    }
+
+    public void SetCurrentWave(int wave)
+    {
+        _currentWave = wave;
     }
 
     public void OnGameOver()

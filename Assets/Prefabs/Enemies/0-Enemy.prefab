@@ -44,7 +44,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 15, y: 5, z: 40}
-  m_Center: {x: 0, y: 1.2120188e-14, z: 16.852879}
+  m_Center: {x: 0.55, y: 0, z: 16.852879}
 --- !u!1 &5167618129968279543
 GameObject:
   m_ObjectHideFlags: 0
@@ -195,13 +195,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa5c390a40d2cee44bc8844af02d446e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 6
-  _yPosBound: 30
   _colliders: []
   _explosion: {fileID: 2400479181384505640}
   _mesh: {fileID: 3210906730037036785}
   _collisionDetect: {fileID: 1655819239}
   _anim: {fileID: 933869328808845982}
+  _speed: 6
+  _yPosBound: 30
   _turnSpeed: 1.25
   _canShoot: 0
   _enemyLaserPrefab: {fileID: 5700309473345992800, guid: 5d50c0efde29c234d815c64768d03db6, type: 3}
