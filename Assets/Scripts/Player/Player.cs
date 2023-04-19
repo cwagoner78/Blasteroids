@@ -61,7 +61,7 @@ public class Player : MonoBehaviour
     private float _inputX;
     private float _inputY;
     private bool _inputEnabled = true;
-    public bool drawingPowerUp;
+    public bool tractorBeamActive;
 
     void Start()
     {
@@ -205,13 +205,13 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.C))
         {
-            drawingPowerUp = true;
+            tractorBeamActive = true;
             _tractorBeamAnim.SetBool("TractorBeamActive", true);
             if (!_beamSource.isPlaying) _beamSource.Play();
         }
         else
         {
-            drawingPowerUp = false;
+            tractorBeamActive = false;
             _tractorBeamAnim.SetBool("TractorBeamActive", false);
             if (_beamSource.volume > 0) _beamSource.volume -= 0.01f;
             if (_beamSource.isPlaying) _beamSource.Stop();

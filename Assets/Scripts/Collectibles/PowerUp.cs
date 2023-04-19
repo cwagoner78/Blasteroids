@@ -48,7 +48,7 @@ public class PowerUp : MonoBehaviour
     {
         Vector3 direction;
 
-        if (_player.drawingPowerUp) direction = _player.transform.position - transform.position;
+        if (_player.tractorBeamActive) direction = _player.transform.position - transform.position;
         else direction = new Vector3(0, -1, 0);
 
         transform.Translate(direction * Random.Range(_moveSpeed / 1.5f, _moveSpeed * 1.5f) * Time.deltaTime);
