@@ -7,10 +7,11 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour
 {
     [Header("Movement")]
-    [SerializeField] private float _moveForce = 5;
+    [SerializeField] private float _moveForce = 40;
     [SerializeField] private bool _speedBoostActive = false;
     [SerializeField] private float _speedBoostMultiplier = 1.5f;
     [SerializeField] private Slider _boostSlider;
+    [SerializeField] private float _speedDownMultiplier = 0.5f;
     public int maxBoost = 500;
     [SerializeField] private int _boostDecrement = 1;
     [HideInInspector]
@@ -36,10 +37,9 @@ public class Player : MonoBehaviour
     [SerializeField] private ParticleSystem _rightDamage;
     [SerializeField] private GameObject _jets;
     [SerializeField] private GameObject _tractorBeam;
+
     private Animator _tractorBeamAnim;
     private AudioSource _beamSource;
-
-
     private Rigidbody _rigidbody;
     private Animator _anim;
     private UIManager _uiManager;
@@ -62,6 +62,7 @@ public class Player : MonoBehaviour
     private float _inputY;
     private bool _inputEnabled = true;
     public bool tractorBeamActive;
+    private bool _speedDownActive;
 
     void Start()
     {
@@ -125,7 +126,6 @@ public class Player : MonoBehaviour
         transform.position = new Vector3(0, 0, 0);
         _startingMoveForce = _moveForce;
         _uiManager.UpdateLives(lives);
-
         _boostSlider.maxValue = maxBoost;
         currentBoost = maxBoost;
         _boostSlider.value = currentBoost;
@@ -151,19 +151,28 @@ public class Player : MonoBehaviour
         _inputY = Input.GetAxisRaw("Vertical");
         Vector3 movement = new Vector3(_inputX, _inputY);
 
-        if (_speedBoostActive && _moveForce < _startingMoveForce * _speedBoostMultiplier)
+        if (!_speedDownActive)
         {
-            _moveForce *= _speedBoostMultiplier;
-            _speedBoostStream.Play();
-            _thruster.enabled = true;
+            if (_speedBoostActive && _moveForce < _startingMoveForce * _speedBoostMultiplier)
+            {
+                _moveForce *= _speedBoostMultiplier;
+                _speedBoostStream.Play();
+                _thruster.enabled = true;
 
+            }
+            else if (!_speedBoostActive)
+            {
+                _moveForce = _startingMoveForce;
+                _speedBoostStream.Stop();
+                _thruster.enabled = false;
+            }
         }
-        else if (!_speedBoostActive)
+        else if (_speedDownActive)
         {
-            _moveForce = _startingMoveForce;
-            _speedBoostStream.Stop();
-            _thruster.enabled = false;
+            if (_moveForce > _startingMoveForce * _speedDownMultiplier) _moveForce = _moveForce * _speedDownMultiplier;
         }
+
+
 
         _rigidbody.AddForce(movement * _moveForce);
 
@@ -223,6 +232,22 @@ public class Player : MonoBehaviour
     public void SpeedBoostGained()
     {
         currentBoost = maxBoost;
+        _uiManager.UpdateHudText("Speed Boost Full!");
+    }
+
+    public void SpeedDownGained(float timer)
+    {
+        _speedDownActive = true;
+        _jets.SetActive(false);
+        StartCoroutine(SpeedDownTimer(timer));
+        _uiManager.UpdateHudText("Speed Down!");
+    }
+
+    IEnumerator SpeedDownTimer(float timer)
+    {
+        yield return new WaitForSeconds(timer);
+        _speedDownActive = false;
+        _jets.SetActive(true);
     }
 
     void CheckForSpeedBoost()
@@ -254,6 +279,7 @@ public class Player : MonoBehaviour
         _shields.enabled = true;
         _shields.color = new Color32(0, 255, 255, 65);
         shieldHealth = 3;
+        _uiManager.UpdateHudText("Shields Up!");
     }
 
     public void Damage(int damage)
@@ -306,6 +332,7 @@ public class Player : MonoBehaviour
         _uiManager.UpdateLives(lives);
         if (lives == 2) _rightDamage.Stop();
         if (lives == 3) _leftDamage.Stop();
+        _uiManager.UpdateHudText("Health Gained!");
     }
 
     IEnumerator InvincibilityRoutine()

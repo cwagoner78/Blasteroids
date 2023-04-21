@@ -10,6 +10,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text _ammoText;
     [SerializeField] private TMP_Text _restartText;
     [SerializeField] private GameObject _nukeIcon;
+    [SerializeField] private GameObject _hudTextContainer;
+    [SerializeField] private TMP_Text _hudText;
     private byte _alpha;
     private int _ammoCount;
 
@@ -77,5 +79,19 @@ public class UIManager : MonoBehaviour
     {
         yield return new WaitForSeconds(.35f);
         _damageStreakAnim.SetBool("TookDamage", false);
+    }
+
+    public void UpdateHudText(string text)
+    { 
+        _hudText.text = text;
+        _hudTextContainer.SetActive(true);
+        StartCoroutine(HudTextTimer());
+    }
+
+    IEnumerator HudTextTimer()
+    {
+        yield return new WaitForSeconds(3);
+        _hudTextContainer.SetActive(false);
+
     }
 }
