@@ -110,9 +110,15 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        StartCoroutine(StopDodging());
+
+    }
+
+    IEnumerator StopDodging()
+    {
+        yield return new WaitForSeconds(0.5f);
         _movingRight = false;
         _movingLeft = false;
-
     }
 
     void CalculateMovement()
