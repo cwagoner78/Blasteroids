@@ -90,6 +90,7 @@ public class Shooting : MonoBehaviour
     {
         hasNuke = true;
         _uiManager.EnableNukeIcon();
+        _uiManager.UpdateHudText("Nuke Gained!");
     }
 
     void FireNuke()
@@ -103,7 +104,8 @@ public class Shooting : MonoBehaviour
     public void AmmoGained()
     {
         ammoCount = _maxAmmo;
-        _uiManager.UpdateAmmoCount(ammoCount); 
+        _uiManager.UpdateAmmoCount(ammoCount);
+        _uiManager.UpdateHudText("Ammo Gained!");
     }
 
     IEnumerator BulletWaitTimer()

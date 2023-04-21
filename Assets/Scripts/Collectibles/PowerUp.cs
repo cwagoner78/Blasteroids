@@ -6,7 +6,14 @@ using UnityEngine;
 
 public class PowerUp : MonoBehaviour
 {
-    [SerializeField] private int _powerUpID; // '0' SpeedBoost, '1' TripleShot, '2' Shields, '3' Health, '4' Ammo
+    [SerializeField] private int _powerUpID; // '-1' SpeedDown,
+                                             // '0' SpeedBoost,
+                                             // '1' TripleShot,
+                                             // '2' Shields,
+                                             // '3' Health,
+                                             // '4' Ammo,
+                                             // '5' Nuke
+
     [SerializeField] private float _moveSpeed = 3f;
     [SerializeField] private ParticleSystem _trailParticles;
     [SerializeField] private ParticleSystem _collectParticles;
@@ -21,6 +28,9 @@ public class PowerUp : MonoBehaviour
     [Header("Point Value")]
     [SerializeField] private int _pointVal = 50;
     private UIManager _uiManager;
+
+    [Header("Player Effects")]
+    [SerializeField] private float _speedDownTimer;
 
     // Start is called before the first frame update
     void Start()
@@ -70,6 +80,7 @@ public class PowerUp : MonoBehaviour
                 case 3: _player.HealthGained(); break;
                 case 4: _shooting.AmmoGained(); break;
                 case 5: _shooting.NukeGained(); break;
+                case 6: _player.SpeedDownGained(_speedDownTimer); break;
                 default: Debug.Log("Default Value"); break;
             }
 
