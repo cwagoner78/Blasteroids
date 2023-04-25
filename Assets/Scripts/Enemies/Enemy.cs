@@ -6,6 +6,9 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    [Header("Enemy Class")]
+    [SerializeField] private bool isBug;
+
     [Header("Components")]
     [SerializeField] private ParticleSystem _explosion;
     [SerializeField] private MeshRenderer _mesh;
@@ -51,6 +54,7 @@ public class Enemy : MonoBehaviour
         if (_anim == null) Debug.LogError("_anim is NULL");
 
         _speed = Random.Range(_speed / 1.25f, _speed * 1.25f);
+
     }
 
     void FixedUpdate()
@@ -95,14 +99,16 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag != "Player" && other.transform.position.x - transform.position.x > 0)
+        if (other.tag != "Player")
         {
-            _movingRight = true;
+            if (other.transform.position.x - transform.position.x > 0) _movingRight = true;
+            if (other.transform.position.x - transform.position.x < 0) _movingLeft = true;
         }
 
-        if (other.tag != "Player" && other.transform.position.x - transform.position.x < 0)
+        if (other.tag == "Player")
         {
-            _movingLeft = true;
+            if (other.transform.position.x - transform.position.x > 0) _movingLeft = true;
+            if (other.transform.position.x - transform.position.x < 0) _movingRight = true;
         }
 
         if (other.tag == "Player" || other.tag == "Asteroid") Shoot();
@@ -128,6 +134,10 @@ public class Enemy : MonoBehaviour
         Vector3 right = new Vector3(_turnSpeed, 0,1);
         Vector3 position = transform.position;
 
+        if (isBug) forward = Vector3.forward;
+
+        if (position.z > 0 || position.z < 0) position = new Vector3(position.x, position.y, 0);
+
         if (_movingLeft)
         {
             transform.Translate(left * _speed * Time.deltaTime);
@@ -146,7 +156,7 @@ public class Enemy : MonoBehaviour
         }
 
         if (position.y < -_yPosBound + 10f) Destroy(gameObject);
-        if (position.z > 0 || position.z < 0) position = new Vector3(position.x, position.y, 0);
+
     }
 
     void Shoot()
