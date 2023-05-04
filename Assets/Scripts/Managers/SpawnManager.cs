@@ -76,7 +76,7 @@ public class SpawnManager : MonoBehaviour
                 if (_nukeTimer > 1 && newSpawnIndex == 5) newSpawnIndex = 4;
             }
 
-            GameObject newSpawn = Instantiate(_spawnPrefabs[newSpawnIndex], _spawnPos, _spawnPrefabs[newSpawnIndex].transform.rotation);
+            GameObject newSpawn = Instantiate(_spawnPrefabs[newSpawnIndex], _spawnPos, Quaternion.identity);
             newSpawn.transform.parent = _spawnContainer.transform;
 
             yield return new WaitForSeconds(Random.Range(_fastest, _longest));

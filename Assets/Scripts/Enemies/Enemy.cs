@@ -3,23 +3,26 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Enemy : MonoBehaviour
 {
     [Header("Enemy Class")]
     [SerializeField] private bool isBug;
+    [SerializeField] private bool isFighter;
 
     [Header("Components")]
     [SerializeField] private ParticleSystem _explosion;
     [SerializeField] private MeshRenderer _mesh;
     [SerializeField] private Animator _anim;
+    [SerializeField] private GameObject _shield;
+    [SerializeField] private GameObject _homingTrigger;
     private Collider[] _colliders;
 
     [Header("Controls")]
     [SerializeField] private float _speed = 1f;
-    [SerializeField] private float _yPosBound = 15f;
+    //[SerializeField] private float _yPosBound = 15f;
     [SerializeField] private float _turnSpeed = 0.5f;
-    [SerializeField] private bool _canShoot;
     [SerializeField] private GameObject _enemyLaserPrefab;
     [SerializeField] private float _fireRate = 3;
     private float _canFire = 2;
@@ -27,14 +30,14 @@ public class Enemy : MonoBehaviour
     [Header("Damage and Point Val")]
     [SerializeField] private int _damage = 1;
     [SerializeField] private int _pointVal = 10;
+    
     private UIManager _uiManager;
     private AudioManager _audioManager;
     private AudioSource _enemyLaserSound;
     private Player _player;
-
-    private bool _isAlive = true;
     private bool _movingLeft = false;
     private bool _movingRight = false;
+    private bool _isHoming = false;
     
     private void Start()
     {
@@ -50,10 +53,9 @@ public class Enemy : MonoBehaviour
         _audioManager = FindObjectOfType<AudioManager>();
         if (_audioManager == null) Debug.LogError("_audioManager is NULL");
 
-        _anim = GetComponent<Animator>();
-        if (_anim == null) Debug.LogError("_anim is NULL");
-
         _speed = Random.Range(_speed / 1.25f, _speed * 1.25f);
+
+        if (isBug) transform.Rotate(Vector3.forward, Random.Range(-30,30));
 
     }
 
@@ -65,7 +67,6 @@ public class Enemy : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         _colliders = transform.GetComponentsInChildren<Collider>();
-        _isAlive = false;
 
         if (collision.gameObject.CompareTag("Projectile"))
         {
@@ -99,44 +100,68 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag != "Player")
-        {
-            if (other.transform.position.x - transform.position.x > 0) _movingRight = true;
-            if (other.transform.position.x - transform.position.x < 0) _movingLeft = true;
-        }
-
-        if (other.tag == "Player")
+        if (other.tag == "Projectile")
         {
             if (other.transform.position.x - transform.position.x > 0) _movingLeft = true;
             if (other.transform.position.x - transform.position.x < 0) _movingRight = true;
         }
 
-        if (other.tag == "Player" || other.tag == "Asteroid") Shoot();
+        if (other.tag == "Player")
+        {
+            if (other.transform.position.x - transform.position.x > 0) _movingRight = true;
+            if (other.transform.position.x - transform.position.x < 0) _movingLeft = true;
+            if (isFighter) Shoot();
+        }
+
+        if (other.tag == "Asteroid")
+        {
+            if (other.transform.position.x - transform.position.x > 0) _movingLeft = true;
+            if (other.transform.position.x - transform.position.x < 0) _movingRight = true;
+            if (isFighter) Shoot();
+        }
+
     }
 
     private void OnTriggerExit(Collider other)
     {
+        _isHoming = false;
         StartCoroutine(StopDodging());
-
     }
 
     IEnumerator StopDodging()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.25f);
         _movingRight = false;
         _movingLeft = false;
     }
 
     void CalculateMovement()
     {
-        Vector3 forward = new Vector3(0,0,1);
-        Vector3 left = new Vector3(-_turnSpeed, 0,1);
-        Vector3 right = new Vector3(_turnSpeed, 0,1);
+        Vector3 direction = Vector3.down;
+        Vector3 left = new Vector3(-_turnSpeed, -1, 0);
+        Vector3 right = new Vector3(_turnSpeed, -1, 0);
         Vector3 position = transform.position;
 
-        if (isBug) forward = Vector3.forward;
 
-        if (position.z > 0 || position.z < 0) position = new Vector3(position.x, position.y, 0);
+        //Bound to zero on Z axis. Not currently working for some reason.
+        if (position.z > 0 || position.z < 0) position.z = 0;
+
+        if (_isHoming && transform.position.y > _player.transform.position.y)
+        { 
+            Vector3 diff = _player.transform.position - transform.position;
+            diff.Normalize();
+            float rot_Z = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
+            Vector3 targetRot = new Vector3(0, 0, rot_Z + 90);
+            transform.rotation = Quaternion.Euler(Vector3.Slerp(transform.rotation.eulerAngles, targetRot, 1f));
+        }
+
+        if (_isHoming && transform.position.y < _player.transform.position.y)
+        {
+            _isHoming = false;
+            Destroy(_homingTrigger);
+        } 
+
+        if (position.y < -40 || position.x < -50 || position.x > 50) Destroy(gameObject);
 
         if (_movingLeft)
         {
@@ -150,24 +175,36 @@ public class Enemy : MonoBehaviour
         }
         else if (!_movingLeft || !_movingRight)
         {
-            transform.Translate(forward * _speed * Time.deltaTime);
+            transform.Translate(direction * _speed * Time.deltaTime);
             _anim.SetBool("MovingLeft", false);
             _anim.SetBool("MovingRight", false);
         }
-
-        if (position.y < -_yPosBound + 10f) Destroy(gameObject);
-
     }
 
     void Shoot()
     {
-        if (_canShoot && Time.time > _canFire)
+        if (isFighter && Time.time > _canFire)
         {
             _enemyLaserSound.Play();
             _fireRate = Random.Range(_fireRate / 2f, _fireRate * 2f);
             _canFire = Time.time + _fireRate;
-            Instantiate(_enemyLaserPrefab, transform.position + new Vector3(0, -1f, 0), transform.rotation);
+            Instantiate(_enemyLaserPrefab, transform.position + new Vector3(0, -1.5f, 0), transform.rotation);
         }
+    }
+
+    public bool IsBug()
+    {
+        return isBug;
+    }
+
+    public bool IsFighter()
+    {
+        return isFighter;
+    }
+
+    public void StartHoming()
+    { 
+        _isHoming = true;    
     }
 }
 
