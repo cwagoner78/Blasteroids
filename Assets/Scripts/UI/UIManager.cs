@@ -31,6 +31,11 @@ public class UIManager : MonoBehaviour
         _scoreText.text = "Score: " + _score.ToString();
     }
 
+    public int GetScore()
+    { 
+        return _score;
+    }
+
     public void UpdateLives(int currentLives)
     {
         _livesImage.sprite = _livesSprites[currentLives];

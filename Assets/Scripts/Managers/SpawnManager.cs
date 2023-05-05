@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using TMPro.EditorUtilities;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -16,6 +17,7 @@ public class SpawnManager : MonoBehaviour
     private Player _player;
     private Shooting _shooting;
     private GameManager _gameManager;
+    private UIManager _uiManager;
 
     private int _currentWave;
     private bool _waveStarted = false;
@@ -31,6 +33,9 @@ public class SpawnManager : MonoBehaviour
 
         _gameManager = FindObjectOfType<GameManager>();
         if (_gameManager == null) Debug.LogError("_gameManager is NULL");
+
+        _uiManager = FindObjectOfType<UIManager>();
+        if (_uiManager == null) Debug.LogError("_uiManager is NULL");
 
         _nukeTimer = _startingNukeTimer;
     }
@@ -74,6 +79,13 @@ public class SpawnManager : MonoBehaviour
                 if (_shooting.ammoCount == 0) newSpawnIndex = 4;
                 if (_nukeTimer < 1 && !_shooting.hasNuke) newSpawnIndex = 5;
                 if (_nukeTimer > 1 && newSpawnIndex == 5) newSpawnIndex = 4;
+            }
+
+            if (gameObject.CompareTag("EnemySpawner"))
+            {
+                //Convert these to wave levels instead of points when waves are integrated
+                if (_uiManager.GetScore() < 5000 && newSpawnIndex == 2) newSpawnIndex--;
+                if (_uiManager.GetScore() < 2500 && newSpawnIndex == 1) newSpawnIndex--;
             }
 
             GameObject newSpawn = Instantiate(_spawnPrefabs[newSpawnIndex], _spawnPos, Quaternion.identity);
