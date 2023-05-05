@@ -21,7 +21,6 @@ public class Enemy : MonoBehaviour
 
     [Header("Controls")]
     [SerializeField] private float _speed = 1f;
-    //[SerializeField] private float _yPosBound = 15f;
     [SerializeField] private float _turnSpeed = 0.5f;
     [SerializeField] private GameObject _enemyLaserPrefab;
     [SerializeField] private float _fireRate = 3;
