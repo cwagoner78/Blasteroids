@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Laser : MonoBehaviour
 {
-    public int damage = 1;
+    [SerializeField] private int _damage = 1;
     private Rigidbody _rb;
     [SerializeField] private float _speed = 20f;
     private Player _player;
@@ -36,7 +36,7 @@ public class Laser : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            if (_player != null) _player.Damage(damage);
+            if (_player != null) _player.Damage(_damage);
             Destroy(gameObject);
         }
     }

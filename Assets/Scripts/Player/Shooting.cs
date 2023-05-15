@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Shooting : MonoBehaviour
@@ -7,14 +8,18 @@ public class Shooting : MonoBehaviour
     [Header("Object Assignments")]
     [SerializeField] private GameObject _laserPrefab;
     [SerializeField] private GameObject _tripleShotPrefab;
+    [SerializeField] private GameObject _homingMissilePrefab;
     [SerializeField] private GameObject _nukePrefab;
     [SerializeField] private GameObject _muzzleFlash;
+    [SerializeField] private GameObject _missileFlashL;
+    [SerializeField] private GameObject _missileFlashR;
     [SerializeField] private GameObject _LeftWingFlash;
     [SerializeField] private GameObject _RightWingFlash;
     [SerializeField] private GameObject _laserContainer;
     [SerializeField] private GameObject _tripleShotContainer;
     private AudioSource _laserSound;
     private AudioSource _tripleShotSound;
+    private AudioSource _homingMissileSound;
     private AudioSource _noAmmoSound;
     private GameManager _gameManager;
     private UIManager _uiManager;
@@ -25,9 +30,14 @@ public class Shooting : MonoBehaviour
     [Header("Flags")]
     [SerializeField] private int _maxAmmo = 15;
     [SerializeField] private bool _canShoot = true;
-    public bool hasNuke = false;
-    public bool hasTripleShot = false;
-    public int ammoCount;
+    
+    private bool _hasNuke = false;
+    private bool _hasTripleShot = false;
+    private bool _hasHomingMissiles = false;
+    private bool _canFireMissiles = false;
+    
+    private int _missileCount;
+
 
     private void Start()
     {
@@ -36,6 +46,9 @@ public class Shooting : MonoBehaviour
 
         _tripleShotSound = GameObject.Find("TripleShotSound").GetComponent<AudioSource>();
         if (_tripleShotSound == null) Debug.LogError("_tripleShotSound is Null");
+
+        _homingMissileSound = GameObject.Find("HomingMissileSound").GetComponent<AudioSource>();
+        if (_homingMissileSound == null) Debug.LogError("_homingMissileSound is Null");
 
         _noAmmoSound = GameObject.Find("NoAmmoSound").GetComponent<AudioSource>();
         if (_noAmmoSound == null) Debug.LogError("_noAmmoSound is Null");
@@ -46,49 +59,45 @@ public class Shooting : MonoBehaviour
         _uiManager = FindObjectOfType<UIManager>();
         if (_uiManager == null) Debug.LogError("_uiManager is Null");
 
-        ammoCount = _maxAmmo;
-        _uiManager.UpdateAmmoCount(ammoCount);
+        _missileCount = _maxAmmo;
+        _uiManager.UpdateAmmoCount(_missileCount);
     }
 
     void Update()
     {
         if (!_gameManager.gamePaused && _canShoot && Input.GetButtonDown("Fire1")) Shoot();
-        if (!_gameManager.gamePaused && hasNuke && Input.GetButtonDown("Fire2")) FireNuke();
+        if (!_gameManager.gamePaused && _canShoot && Input.GetButtonDown("Fire2")) FireMissiles();
+        if (!_gameManager.gamePaused && _hasNuke && Input.GetKeyDown(KeyCode.Space)) FireNuke();
     }
 
     public void Shoot()
     {
-        if (ammoCount == 0)
-        {
-            _noAmmoSound.Play();
-            return;
-        } 
 
-        if (!hasTripleShot)
+
+        if (!_hasTripleShot)
         {
             _laserSound.Play();
             _muzzleFlash.GetComponent<ParticleSystem>().Play();
             Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.5f, 0), Quaternion.identity);
-            ammoCount--;
-            _uiManager.UpdateAmmoCount(ammoCount);
+
         }
-        else
+        else if (_hasTripleShot)
         {
             _tripleShotSound.Play();
             _muzzleFlash.GetComponent<ParticleSystem>().Play();
             _LeftWingFlash.GetComponent<ParticleSystem>().Play();
             _RightWingFlash.GetComponent<ParticleSystem>().Play();
             Instantiate(_tripleShotPrefab, transform.position + new Vector3(0, 0.5f, 0), Quaternion.identity);
-            ammoCount--;
-            _uiManager.UpdateAmmoCount(ammoCount);
+
         }
+
         _canShoot = false;
         StartCoroutine(BulletWaitTimer());
     }
 
     public void NukeGained()
     {
-        hasNuke = true;
+        _hasNuke = true;
         _uiManager.EnableNukeIcon();
         _uiManager.UpdateHudText("Nuke Gained!");
     }
@@ -96,15 +105,32 @@ public class Shooting : MonoBehaviour
     void FireNuke()
     {
         GameObject nuke = Instantiate(_nukePrefab, transform.position, Quaternion.identity);
-        hasNuke = false;
+        _hasNuke = false;
         _uiManager.DisableNukeIcon();
         Destroy(nuke, 10);
     }
 
+    void FireMissiles()
+    {
+        if (_missileCount == 0)
+        {
+            _noAmmoSound.Play();
+            return;
+        }
+
+        _homingMissileSound.Play();
+        _missileFlashL.GetComponent<ParticleSystem>().Play();
+        _missileFlashR.GetComponent<ParticleSystem>().Play();
+        Instantiate(_homingMissilePrefab, transform.position + new Vector3(0, 0, 0), Quaternion.identity);
+
+        _missileCount -= 2;
+        _uiManager.UpdateAmmoCount(_missileCount);
+    }
+
     public void AmmoGained()
     {
-        ammoCount = _maxAmmo;
-        _uiManager.UpdateAmmoCount(ammoCount);
+        _missileCount = _maxAmmo;
+        _uiManager.UpdateAmmoCount(_missileCount);
         _uiManager.UpdateHudText("Ammo Gained!");
     }
 
@@ -116,11 +142,32 @@ public class Shooting : MonoBehaviour
 
     public void TripleShotActive()
     {
-        hasTripleShot = true;
+        _hasTripleShot = true;
     }
 
     public void DisableTripleShot()
     {
-        hasTripleShot = false;
+        _hasTripleShot = false;
     }
+
+    public bool HasNuke()
+    { 
+        return _hasNuke;
+    }
+
+    public bool HasTripleShot()
+    {
+        return _hasTripleShot;
+    }
+
+    public bool HasHomingMissiles()
+    {
+        return _hasHomingMissiles;
+    }
+
+    public int GetMissleCount()
+    {
+        return _missileCount;
+    }
+
 }

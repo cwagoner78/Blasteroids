@@ -25,6 +25,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private GameObject _enemyLaserPrefab;
     [SerializeField] private float _fireRate = 3;
     private float _canFire = 2;
+    private bool _canBeTargeted = true;
 
     [Header("Damage and Point Val")]
     [SerializeField] private int _damage = 1;
@@ -76,6 +77,7 @@ public class Enemy : MonoBehaviour
             foreach (Collider col in _colliders) col.enabled= false;
             Destroy(gameObject, 3f);
             _uiManager.AddScore(_pointVal);
+            _canBeTargeted = false;
         }
 
         if (collision.gameObject.CompareTag("Asteroid"))
@@ -84,6 +86,7 @@ public class Enemy : MonoBehaviour
             _mesh.enabled = false;
             foreach (Collider col in _colliders) col.enabled = false;
             Destroy(gameObject, 3f);
+            _canBeTargeted = false;
         }
 
         if (collision.gameObject.CompareTag("Player"))
@@ -94,6 +97,7 @@ public class Enemy : MonoBehaviour
             _mesh.enabled = false;
             foreach (Collider col in _colliders) col.enabled = false;
             Destroy(gameObject, 3f);
+            _canBeTargeted = false;
         }
     }
 
@@ -204,6 +208,11 @@ public class Enemy : MonoBehaviour
     public void StartHoming()
     { 
         _isHoming = true;    
+    }
+
+    public bool IsTargetable()
+    {
+        return _canBeTargeted;
     }
 }
 
