@@ -406,4 +406,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc8603c8b3fd76b46b83c733a2381535, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _killPointValue: 100
+  _killPointValue: 50

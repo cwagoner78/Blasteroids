@@ -57,8 +57,8 @@ public class SpawnManager : MonoBehaviour
 
     void UpdateNukeTimer()
     { 
-        if (!_shooting.hasNuke) _nukeTimer -= Time.deltaTime;
-        if (_shooting.hasNuke) _nukeTimer = _startingNukeTimer;
+        if (!_shooting.HasNuke()) _nukeTimer -= Time.deltaTime;
+        if (_shooting.HasNuke()) _nukeTimer = _startingNukeTimer;
         if (_nukeTimer < 0) _nukeTimer = 0;
     }
 
@@ -72,12 +72,12 @@ public class SpawnManager : MonoBehaviour
 
             if (gameObject.CompareTag("PowerUpSpawner"))
             {
-                if (_player.currentBoost == _player.maxBoost && newSpawnIndex == 0) newSpawnIndex++;
-                if (_shooting.hasTripleShot && newSpawnIndex == 1) newSpawnIndex++;
-                if (_player.shieldHealth == 3 && newSpawnIndex == 2) newSpawnIndex++;
-                if (_player.lives == 3 && newSpawnIndex == 3) newSpawnIndex++;
-                if (_shooting.ammoCount == 0) newSpawnIndex = 4;
-                if (_nukeTimer < 1 && !_shooting.hasNuke) newSpawnIndex = 5;
+                if (_player.GetCurrentBoost() == _player.maxBoost && newSpawnIndex == 0) newSpawnIndex++;
+                if (_shooting.HasTripleShot() && newSpawnIndex == 1) newSpawnIndex++;
+                if (_player.GetShieldHealth() == 3 && newSpawnIndex == 2) newSpawnIndex++;
+                if (_player.GetLives() == 3 && newSpawnIndex == 3) newSpawnIndex++;
+                if (_shooting.GetMissleCount() == 0) newSpawnIndex = 4;
+                if (_nukeTimer < 1 && !_shooting.HasNuke()) newSpawnIndex = 5;
                 if (_nukeTimer > 1 && newSpawnIndex == 5) newSpawnIndex = 4;
             }
 

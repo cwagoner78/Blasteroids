@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
     public int maxBoost = 500;
     [SerializeField] private int _boostDecrement = 1;
     [HideInInspector]
-    public int currentBoost;
+    private int _currentBoost;
 
     [Header("Boundaries")]
     [SerializeField] private float _xBounds = 12f;
@@ -23,10 +23,10 @@ public class Player : MonoBehaviour
 
     [Header("Player Health")]
     [SerializeField] private int _startingHealth = 1;
-    public int lives = 3;
+    private int _lives = 3;
     [SerializeField] private float _invincibilityTimer = 3f;
     private bool _shieldsActive = false;
-    public int shieldHealth;
+    private int _shieldHealth;
     private bool _isInvincible = false;
     private int _health = 1;
 
@@ -125,10 +125,10 @@ public class Player : MonoBehaviour
 
         transform.position = new Vector3(0, 0, 0);
         _startingMoveForce = _moveForce;
-        _uiManager.UpdateLives(lives);
+        _uiManager.UpdateLives(_lives);
         _boostSlider.maxValue = maxBoost;
-        currentBoost = maxBoost;
-        _boostSlider.value = currentBoost;
+        _currentBoost = maxBoost;
+        _boostSlider.value = _currentBoost;
 
     }
 
@@ -231,7 +231,7 @@ public class Player : MonoBehaviour
 
     public void SpeedBoostGained()
     {
-        currentBoost = maxBoost;
+        _currentBoost = maxBoost;
         _uiManager.UpdateHudText("Speed Boost Full!");
     }
 
@@ -252,21 +252,21 @@ public class Player : MonoBehaviour
 
     void CheckForSpeedBoost()
     {
-        if (Input.GetKey(KeyCode.LeftShift) && currentBoost > 0)
+        if (Input.GetKey(KeyCode.LeftShift) && _currentBoost > 0)
         {
             _speedBoostActive = true;
             StartCoroutine(DecreaseBoost());
         } 
         else _speedBoostActive = false;
 
-        _boostSlider.value = currentBoost;
+        _boostSlider.value = _currentBoost;
     }
 
     IEnumerator DecreaseBoost()
     {
-        while (_speedBoostActive && currentBoost > 0)
+        while (_speedBoostActive && _currentBoost > 0)
         {
-            currentBoost -= _boostDecrement;
+            _currentBoost -= _boostDecrement;
             yield return new WaitForSeconds(0.1f);
         }
     }
@@ -278,7 +278,7 @@ public class Player : MonoBehaviour
         _shieldsActive = true;
         _shields.enabled = true;
         _shields.color = new Color32(0, 255, 255, 65);
-        shieldHealth = 3;
+        _shieldHealth = 3;
         _uiManager.UpdateHudText("Shields Up!");
     }
 
@@ -287,10 +287,10 @@ public class Player : MonoBehaviour
         if (_isInvincible) return;
         else if (_shieldsActive)
         {
-            shieldHealth -= 1;
+            _shieldHealth -= 1;
             _explosionEffect.Play();
             _audioManager.PlayExplosion();
-            if (shieldHealth <= 0)
+            if (_shieldHealth <= 0)
             {
                 _shieldsActive = false;
                 _shields.enabled = false;
@@ -311,27 +311,27 @@ public class Player : MonoBehaviour
         {
             GameObject newInstance = Instantiate(_explosionEffectPrefab, transform.position, Quaternion.identity);
             newInstance.GetComponent<ParticleSystem>().Play();
-            lives--;
-            _uiManager.UpdateLives(lives);
+            _lives--;
+            _uiManager.UpdateLives(_lives);
             _shooting.DisableTripleShot();
             _health = _startingHealth;
         }
 
-        if (shieldHealth == 2) _shields.color = new Color32(255, 255, 0, 65);
-        if (shieldHealth == 1) _shields.color = new Color32(255, 0, 0, 65);
+        if (_shieldHealth == 2) _shields.color = new Color32(255, 255, 0, 65);
+        if (_shieldHealth == 1) _shields.color = new Color32(255, 0, 0, 65);
 
-        if (lives == 2) _leftDamage.Play();
-        if (lives == 1) _rightDamage.Play();
-        if (lives == 0) GameOver();
+        if (_lives == 2) _leftDamage.Play();
+        if (_lives == 1) _rightDamage.Play();
+        if (_lives == 0) GameOver();
 
     }
 
     public void HealthGained()
     {
-        if (lives < 3) lives++;
-        _uiManager.UpdateLives(lives);
-        if (lives == 2) _rightDamage.Stop();
-        if (lives == 3) _leftDamage.Stop();
+        if (_lives < 3) _lives++;
+        _uiManager.UpdateLives(_lives);
+        if (_lives == 2) _rightDamage.Stop();
+        if (_lives == 3) _leftDamage.Stop();
         _uiManager.UpdateHudText("Health Gained!");
     }
 
@@ -355,5 +355,20 @@ public class Player : MonoBehaviour
         _uiManager.OnGameOver();
 
         gameObject.SetActive(false);
+    }
+
+    public int GetShieldHealth()
+    {
+        return _shieldHealth;
+    }
+
+    public int GetCurrentBoost()
+    {
+        return _currentBoost;
+    }
+
+    public int GetLives()
+    {
+        return _lives;
     }
 }

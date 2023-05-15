@@ -84,7 +84,7 @@ MonoBehaviour:
   _explosion: {fileID: 7197441518065225455}
   _mesh: {fileID: 4964092060417137798}
   _anim: {fileID: 0}
-  _shield: {fileID: 0}
+  _shield: {fileID: 4964092060945791416}
   _homingTrigger: {fileID: 4964092060620440453}
   _speed: 8
   _turnSpeed: 1.75
@@ -270,7 +270,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4964092060945791423
 Transform:
   m_ObjectHideFlags: 0

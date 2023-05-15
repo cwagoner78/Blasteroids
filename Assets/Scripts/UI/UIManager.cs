@@ -44,7 +44,7 @@ public class UIManager : MonoBehaviour
     public void UpdateAmmoCount(int ammo)
     {
         _ammoCount = ammo;
-        _ammoText.text = _ammoCount.ToString() + " Ammo Left";
+        _ammoText.text = _ammoCount.ToString() + " Homing";
         _ammoImage.sprite = _ammoSprites[_ammoCount];
     }
 
