@@ -1,7 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
+
 
 public class HomingMissile : MonoBehaviour
 {
@@ -37,6 +36,7 @@ public class HomingMissile : MonoBehaviour
     {
         //Find all enemies, get closest and set target
         _enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        if (_enemies == null) return;
         SetTarget(GetClosestEnemy(_enemies));
 
         //If current target is not targetable anymore, look for another target
@@ -51,6 +51,7 @@ public class HomingMissile : MonoBehaviour
 
     Transform GetClosestEnemy(GameObject[] enemies)
     {
+        if (_enemies == null) return null;
         GameObject bestTarget = null;
         float closestDistanceSqr = Mathf.Infinity;
         Vector3 currentPosition = transform.position;
@@ -64,11 +65,11 @@ public class HomingMissile : MonoBehaviour
                 bestTarget = potentialTarget;
             }
         }
-
+        if (bestTarget == null) return null;
         return bestTarget.transform;
     }
 
-    public void SetTarget(Transform target)
+    void SetTarget(Transform target)
     {
         _target = target;
     }
