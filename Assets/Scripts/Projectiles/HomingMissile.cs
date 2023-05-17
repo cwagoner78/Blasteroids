@@ -28,6 +28,8 @@ public class HomingMissile : MonoBehaviour
         if (_isLeftMissile) _rb.AddForce(Vector3.left * _launchForce, ForceMode.Impulse);
         if (_isRightMissile) _rb.AddForce(Vector3.right * _launchForce, ForceMode.Impulse);
 
+        Physics.IgnoreCollision(_player.GetComponent<Collider>(), GetComponent<Collider>());
+
         StartCoroutine(AliveTimer());
     }
 
