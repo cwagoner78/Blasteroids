@@ -32,10 +32,7 @@ public class Shooting : MonoBehaviour
     [SerializeField] private bool _canShoot = true;
     
     private bool _hasNuke = false;
-    private bool _hasTripleShot = false;
-    private bool _hasHomingMissiles = false;
-    private bool _canFireMissiles = false;
-    
+    private bool _hasTripleShot = false;    
     private int _missileCount;
 
 
@@ -72,8 +69,6 @@ public class Shooting : MonoBehaviour
 
     public void Shoot()
     {
-
-
         if (!_hasTripleShot)
         {
             _laserSound.Play();
@@ -158,11 +153,6 @@ public class Shooting : MonoBehaviour
     public bool HasTripleShot()
     {
         return _hasTripleShot;
-    }
-
-    public bool HasHomingMissiles()
-    {
-        return _hasHomingMissiles;
     }
 
     public int GetMissleCount()
