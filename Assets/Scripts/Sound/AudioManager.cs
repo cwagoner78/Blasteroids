@@ -27,8 +27,6 @@ public class AudioManager : MonoBehaviour
         else Destroy(gameObject);
         
         DontDestroyOnLoad(gameObject);
-
-        //TEST
     }
 
     public void StartTitleMusic()
