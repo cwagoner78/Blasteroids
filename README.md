@@ -74,9 +74,22 @@ All gameplay code lives in `Assets/Scripts/`: 19 hand-written C# files, about 1,
 | **UI** | `UIManager` `MainMenu` `GameOverAnimation` | HUD, ammo display, messages, menus |
 | **Audio** | `AudioManager` | Sound effects and music |
 
-### 📝 Devlog
+## 📝 Devlog
 
-The build is documented step by step in a **10-part tutorial series on [Medium](https://medium.com/@cwagoner78)**, covering homing missiles, enemy AI, the spawn balancing, the tractor beam, the ammo UI, and the nuke.
+Every feature past the boot camp is written up step by step on [Medium](https://medium.com/@cwagoner78):
+
+| Date | Article |
+|---|---|
+| Apr 3, 2023 | [Nuke Bomb Secondary Attack](https://medium.com/@cwagoner78/polishing-the-game-nuke-bomb-secondary-attack-9a39d7ca9a4f) |
+| Apr 6, 2023 | [Adding Enemy Collision Detection](https://medium.com/@cwagoner78/more-polish-adding-enemy-collision-detection-more-movement-ceb6728498a9) |
+| Apr 8, 2023 | [Visual Feedback for the Ammo System](https://medium.com/@cwagoner78/more-polish-creating-visual-feedback-for-the-ammo-system-39224e155051) |
+| Apr 10, 2023 | [Balancing the Spawn Managers](https://medium.com/@cwagoner78/more-polish-balancing-the-spawn-managers-13e79256c1ff) |
+| Apr 17, 2023 | [Smarter Enemies](https://medium.com/@cwagoner78/more-polish-enemies-dodge-lasers-2ce430b31e55) |
+| Apr 19, 2023 | [Creating a Tractor Beam](https://medium.com/@cwagoner78/more-polish-creating-a-tractor-beam-f03a901478b0) |
+| Apr 21, 2023 | [Negative Power-Ups and HUD Text Feedback](https://medium.com/@cwagoner78/more-polish-negative-power-ups-and-hud-text-feedback-e32ea00eae13) |
+| Apr 25, 2023 | [Aggressive Enemies](https://medium.com/@cwagoner78/more-polish-aggressive-enemies-9e878e014cb5) |
+| May 6, 2023 | [New Enemy Type](https://medium.com/@cwagoner78/more-polish-new-enemy-type-2bb739f445e0) |
+| May 17, 2023 | [Homing Missiles](https://medium.com/@cwagoner78/more-polish-homing-missiles-1fdd7f55052d) |
 
 ## ⚠️ Known Limitations
 
