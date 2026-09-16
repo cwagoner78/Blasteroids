@@ -11,12 +11,16 @@ Blast your way through an enemy-swarmed asteroid field and see how many points y
 ![Unity](https://img.shields.io/badge/Unity-2021.3.16f1-000000?logo=unity&logoColor=white)
 ![C#](https://img.shields.io/badge/C%23-239120?logo=csharp&logoColor=white)
 ![Platforms](https://img.shields.io/badge/Platforms-WebGL%20%7C%20Windows%20%7C%20macOS-blue)
+![Status](https://img.shields.io/badge/Status-Unfinished%20alpha-orange)
 
 <!-- Add a gameplay GIF here: ![Blasteroids gameplay](docs/blasteroids-gameplay.gif) -->
 
 </div>
 
 ---
+
+> [!NOTE]
+> **Unfinished.** Blasteroids is a playable alpha, and development paused in December 2023. What's below is what works today.
 
 ## ✨ Features
 
@@ -105,7 +109,7 @@ Every feature past the boot camp is written up step by step on [Medium](https://
 
 ## 📜 Version History
 
-Developed from March to December 2023. The full commit history is here, so you can follow each feature as it was added.
+Developed from March to December 2023, then paused before completion. The full commit history is here, so you can follow each feature as it was added.
 
 ---
 
