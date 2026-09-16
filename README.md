@@ -20,7 +20,7 @@ Blast your way through an enemy-swarmed asteroid field and see how many points y
 ---
 
 > [!NOTE]
-> **Unfinished.** Blasteroids is a playable alpha, and development is on hold since December 2023, with plans to pick it back up. What's below is what works today.
+> **Unfinished.** Blasteroids is a playable alpha, and development has been on hold since December 2023, with plans to pick it back up. What's below is what works today.
 
 ## ✨ Features
 
